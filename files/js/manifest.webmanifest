@@ -1,0 +1,88 @@
+{
+  "name": "App Toko",
+  "short_name": "AppToko",
+  "description": "Aplikasi Toko",
+  "icons": [
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "description": "Aplikasi Toko - Semua detail data penjualan, keuntungan, dan pengeluaran yang diinput tersimpan rapi. Aplikasi ini online dan hanya dapat digunakan pada Smartphone.",
+  "screenshots": [
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/ss1-500x1083.jpg",
+      "type": "image/jpg",
+      "sizes": "500x1083",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/ss2-500x1083.jpg",
+      "type": "image/jpg",
+      "sizes": "500x1083",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/ss3-500x1083.jpg",
+      "type": "image/jpg",
+      "sizes": "500x1083",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://atakana.com/app/app-toko-vmo/files/img/ss4-500x1083.jpg",
+      "type": "image/jpg",
+      "sizes": "500x1083",
+      "form_factor": "narrow"
+    }
+  ],
+  "scope": "/",
+  "start_url": "/toko/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0DCAF0",
+  "background_color": "#0DCAF0"
+}
