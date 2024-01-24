@@ -254,7 +254,7 @@ while($row_pgr = mysqli_fetch_array($sel_pengeluaran)){
         <input type="hidden" id="bulan" value="<?=$bulan;?>">
         <input type="hidden" id="tahun" value="<?=$tahun;?>">
         <button type="button" class="btn btn-secondary">Batal</button>
-        <button type="submit" class="btn btn-primary">Tambah</button>
+        <button type="submit" class="btn">Tambah</button>
       </div>
     </form>
   </div>
@@ -270,7 +270,7 @@ if(isset($_SESSION['grup']) && $_SESSION['grup'] == 0){
             <input type="search" id="nama" class="form-control">
           </div>
           <div class="col-2">
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="submit" class="btn text-bg-info">Simpan</button>
           </div>
         <div class="err"></div>
       </div>
@@ -291,7 +291,7 @@ if(isset($_SESSION['grup']) && $_SESSION['grup'] == 0){
             <input type="search" id="nama" class="form-control">
           </div>
           <div class="col-2">
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="submit" class="btn text-bg-info">Simpan</button>
           </div>
         <div class="err"></div>
       </div>
@@ -311,7 +311,7 @@ if(isset($_SESSION['grup']) && $_SESSION['grup'] == 0){
 <?php }else{ ?>
   <div class="my-5 text-center">
     <p class="text-danger">Belum Ada Data!</p>
-    <p><a href="<?=$base_url.'?pg=input-modal';?>" class="badge text-bg-info text-decoration-none fw-normal py-2 px-3">Input Data</a></p>
+    <p><a href="<?=$base_url.'?pg=input-produk';?>" class="badge text-bg-info text-decoration-none fw-normal py-2 px-3">Input Data</a></p>
   </div>
 <?php } ?>
   <div class="text-center">
