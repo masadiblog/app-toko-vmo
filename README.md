@@ -31,6 +31,8 @@ Iphone -> Buka Google Chrome cari dan klik fitur Add to Home Screen.
 * Font Awesome
 
 # Instal
+Via browser Google Chrome versi terbaru.
+
 https://atakana.com/app/app-toko-vmo/
 
 Untuk kedepannya akan dikembangkan lagi, terima kasih 🙏
