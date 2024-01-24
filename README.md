@@ -35,4 +35,7 @@ Via browser Google Chrome versi terbaru.
 
 https://atakana.com/app/app-toko-vmo/
 
+# Youtube
+https://www.youtube.com/watch?v=ZCs_34A04mQ
+
 Untuk kedepannya akan dikembangkan lagi, terima kasih 🙏
