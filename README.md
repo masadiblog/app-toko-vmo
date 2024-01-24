@@ -1,7 +1,7 @@
+# App Toko
+
 ![Picsart_24-01-24_16-24-38-060](https://github.com/masadiblog/app-toko-vmo/assets/49811141/e8def00f-3960-4887-ab11-860b3932bcc5)
 
-
-# App Toko
 Aplikasi untuk penjualan data semua penjualan, pengeluaran, keuntungan dan lainnya tersimpan rapi.
 
 Agar dapat menggunakan App Toko disarankan untuk mengaksesnya via Google Chrome versi terbaru.
@@ -19,6 +19,15 @@ Iphone -> Buka Google Chrome cari dan klik fitur Add to Home Screen.
 * Register (akun utama)
 * Login (simpan session, cookie)
 * Logout (hapus session, cookie)
+
+# Menggunakan
+* HTML
+* CSS
+* JavaScript
+* MySQL
+* PHP
+* Bootstrap
+* Font Awesome
 
 # Instal
 https://atakana.com/app/app-toko-vmo/
