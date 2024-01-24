@@ -254,7 +254,7 @@ while($row_pgr = mysqli_fetch_array($sel_pengeluaran)){
         <input type="hidden" id="bulan" value="<?=$bulan;?>">
         <input type="hidden" id="tahun" value="<?=$tahun;?>">
         <button type="button" class="btn btn-secondary">Batal</button>
-        <button type="submit" class="btn">Tambah</button>
+        <button type="submit" class="btn btn-primary">Tambah</button>
       </div>
     </form>
   </div>

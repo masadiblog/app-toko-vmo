@@ -309,40 +309,50 @@ if(isset($_POST['edit-grup']) && $_POST['edit-grup'] == true){
 
 if(isset($_POST['hapus-grup']) && $_POST['hapus-grup'] == true){
   $id = htmlentities($_POST['dataId']);
-  if(mysqli_query($con, "DELETE FROM tb_modal WHERE id_grup='$id'")){
-    if(mysqli_query($con, "DELETE FROM tb_penjualan WHERE id_grup='$id'")){
-      if(mysqli_query($con, "DELETE FROM tb_pengeluaran WHERE id_grup='$id'")){
-        if(mysqli_query($con, "DELETE FROM tb_admin WHERE id_grup='$id'")){
-          if(mysqli_query($con, "DELETE FROM tb_toko WHERE id_grup='$id'")){
-            if(mysqli_query($con, "DELETE FROM tb_grup WHERE id_grup='$id'")){
-              $_SESSION['login_access'] = '';
-              $_SESSION['user'] = '';
-              $_SESSION['level'] = '';
-              $_SESSION['admin'] = '';
-              $_SESSION['grup'] = '';
-              $_SESSION['toko'] = '';
-              unset($_SESSION['login_access']);
-              unset($_SESSION['user']);
-              unset($_SESSION['level']);
-              unset($_SESSION['admin']);
-              unset($_SESSION['grup']);
-              unset($_SESSION['toko']);
-              setcookie('acc', '', time() - 3600);
-              setcookie('token', '', time() - 3600);
-              session_unset();
-              session_destroy();
-              $data = array(
-                'oke' => true,
-                'title' => 'Berhasil',
-                'text' => 'Data grup berhasil dihapus.',
-                'icon' => 'success',
-                'btn' => 'Oke',
-              );
+  if(mysqli_query($con, "DELETE FROM tb_catatan WHERE id_grup='$id'")){
+    if(mysqli_query($con, "DELETE FROM tb_modal WHERE id_grup='$id'")){
+      if(mysqli_query($con, "DELETE FROM tb_penjualan WHERE id_grup='$id'")){
+        if(mysqli_query($con, "DELETE FROM tb_pengeluaran WHERE id_grup='$id'")){
+          if(mysqli_query($con, "DELETE FROM tb_admin WHERE id_grup='$id'")){
+            if(mysqli_query($con, "DELETE FROM tb_toko WHERE id_grup='$id'")){
+              if(mysqli_query($con, "DELETE FROM tb_grup WHERE id_grup='$id'")){
+                $_SESSION['login_access'] = '';
+                $_SESSION['user'] = '';
+                $_SESSION['level'] = '';
+                $_SESSION['admin'] = '';
+                $_SESSION['grup'] = '';
+                $_SESSION['toko'] = '';
+                unset($_SESSION['login_access']);
+                unset($_SESSION['user']);
+                unset($_SESSION['level']);
+                unset($_SESSION['admin']);
+                unset($_SESSION['grup']);
+                unset($_SESSION['toko']);
+                setcookie('acc', '', time() - 3600);
+                setcookie('token', '', time() - 3600);
+                session_unset();
+                session_destroy();
+                $data = array(
+                  'oke' => true,
+                  'title' => 'Berhasil',
+                  'text' => 'Data grup berhasil dihapus.',
+                  'icon' => 'success',
+                  'btn' => 'Oke',
+                );
+              }else{
+                $data = array(
+                  'not' => true,
+                  'title' => 'Gagal',
+                  'text' => 'Data grup gagal dihapus!',
+                  'icon' => 'failed',
+                  'btn' => 'Tutup',
+                );
+              }
             }else{
               $data = array(
                 'not' => true,
                 'title' => 'Gagal',
-                'text' => 'Data grup gagal dihapus!',
+                'text' => 'Tabel data toko gagal dihapus!',
                 'icon' => 'failed',
                 'btn' => 'Tutup',
               );
@@ -351,7 +361,7 @@ if(isset($_POST['hapus-grup']) && $_POST['hapus-grup'] == true){
             $data = array(
               'not' => true,
               'title' => 'Gagal',
-              'text' => 'Tabel data toko gagal dihapus!',
+              'text' => 'Tabel data admin gagal dihapus!',
               'icon' => 'failed',
               'btn' => 'Tutup',
             );
@@ -360,7 +370,7 @@ if(isset($_POST['hapus-grup']) && $_POST['hapus-grup'] == true){
           $data = array(
             'not' => true,
             'title' => 'Gagal',
-            'text' => 'Tabel data admin gagal dihapus!',
+            'text' => 'Tabel data pengeluaran gagal dihapus!',
             'icon' => 'failed',
             'btn' => 'Tutup',
           );
@@ -369,7 +379,7 @@ if(isset($_POST['hapus-grup']) && $_POST['hapus-grup'] == true){
         $data = array(
           'not' => true,
           'title' => 'Gagal',
-          'text' => 'Tabel data pengeluaran gagal dihapus!',
+          'text' => 'Tabel data penjualan gagal dihapus!',
           'icon' => 'failed',
           'btn' => 'Tutup',
         );
@@ -378,7 +388,7 @@ if(isset($_POST['hapus-grup']) && $_POST['hapus-grup'] == true){
       $data = array(
         'not' => true,
         'title' => 'Gagal',
-        'text' => 'Tabel data penjualan gagal dihapus!',
+        'text' => 'Tabel data modal gagal dihapus!',
         'icon' => 'failed',
         'btn' => 'Tutup',
       );
@@ -387,7 +397,7 @@ if(isset($_POST['hapus-grup']) && $_POST['hapus-grup'] == true){
     $data = array(
       'not' => true,
       'title' => 'Gagal',
-      'text' => 'Tabel data modal gagal dihapus!',
+      'text' => 'Tabel data catatan gagal dihapus!',
       'icon' => 'failed',
       'btn' => 'Tutup',
     );
@@ -512,23 +522,33 @@ if(isset($_POST['edit-toko']) && $_POST['edit-toko'] == true){
 
 if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
   $id = htmlentities($_POST['dataId']);
-  if(mysqli_query($con, "DELETE FROM tb_modal WHERE id_grup='$idgrup' AND id_toko='$id'")){
-    if(mysqli_query($con, "DELETE FROM tb_penjualan WHERE id_grup='$idgrup' AND id_toko='$id'")){
-      if(mysqli_query($con, "DELETE FROM tb_pengeluaran WHERE id_grup='$idgrup' AND id_toko='$id'")){
-        if(mysqli_query($con, "DELETE FROM tb_admin WHERE id_grup='$idgrup' AND id_toko='$id'")){
-          if(mysqli_query($con, "DELETE FROM tb_toko WHERE id_toko='$id' AND id_grup='$idgrup'")){
-            $data = array(
-              'oke' => true,
-              'title' => 'Berhasil',
-              'text' => 'Toko berhasil dihapus.',
-              'icon' => 'success',
-              'btn' => 'Oke',
-            );
+  if(mysqli_query($con, "DELETE FROM tb_catatan WHERE id_grup='$idgrup' AND id_toko='$id'")){
+    if(mysqli_query($con, "DELETE FROM tb_modal WHERE id_grup='$idgrup' AND id_toko='$id'")){
+      if(mysqli_query($con, "DELETE FROM tb_penjualan WHERE id_grup='$idgrup' AND id_toko='$id'")){
+        if(mysqli_query($con, "DELETE FROM tb_pengeluaran WHERE id_grup='$idgrup' AND id_toko='$id'")){
+          if(mysqli_query($con, "DELETE FROM tb_admin WHERE id_grup='$idgrup' AND id_toko='$id'")){
+            if(mysqli_query($con, "DELETE FROM tb_toko WHERE id_toko='$id' AND id_grup='$idgrup'")){
+              $data = array(
+                'oke' => true,
+                'title' => 'Berhasil',
+                'text' => 'Toko berhasil dihapus.',
+                'icon' => 'success',
+                'btn' => 'Oke',
+              );
+            }else{
+              $data = array(
+                'not' => true,
+                'title' => 'Gagal',
+                'text' => 'Toko gagal dihapus!',
+                'icon' => 'failed',
+                'btn' => 'Tutup',
+              );
+            }
           }else{
             $data = array(
               'not' => true,
               'title' => 'Gagal',
-              'text' => 'Toko gagal dihapus!',
+              'text' => 'Tabel data admin toko gagal dihapus!',
               'icon' => 'failed',
               'btn' => 'Tutup',
             );
@@ -537,7 +557,7 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
           $data = array(
             'not' => true,
             'title' => 'Gagal',
-            'text' => 'Tabel data admin toko gagal dihapus!',
+            'text' => 'Tabel data pengeluaran gagal dihapus!',
             'icon' => 'failed',
             'btn' => 'Tutup',
           );
@@ -546,7 +566,7 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
         $data = array(
           'not' => true,
           'title' => 'Gagal',
-          'text' => 'Tabel data pengeluaran gagal dihapus!',
+          'text' => 'Tabel data penjualan toko gagal dihapus!',
           'icon' => 'failed',
           'btn' => 'Tutup',
         );
@@ -555,7 +575,7 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
       $data = array(
         'not' => true,
         'title' => 'Gagal',
-        'text' => 'Tabel data penjualan toko gagal dihapus!',
+        'text' => 'Tabel data modal toko gagal dihapus!',
         'icon' => 'failed',
         'btn' => 'Tutup',
       );
@@ -564,7 +584,7 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
     $data = array(
       'not' => true,
       'title' => 'Gagal',
-      'text' => 'Tabel data modal toko gagal dihapus!',
+      'text' => 'Tabel data catatan toko gagal dihapus!',
       'icon' => 'failed',
       'btn' => 'Tutup',
     );
