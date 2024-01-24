@@ -80,7 +80,7 @@
     }
   ],
   "scope": "/",
-  "start_url": "/app-toko/",
+  "start_url": "/app/app-toko-vmo/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#0DCAF0",
