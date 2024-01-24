@@ -31,3 +31,5 @@ Iphone -> Buka Google Chrome cari dan klik fitur Add to Home Screen.
 
 # Instal
 https://atakana.com/app/app-toko-vmo/
+
+Untuk kedepannya akan dikembangkan lagi, terima kasih 🙏
