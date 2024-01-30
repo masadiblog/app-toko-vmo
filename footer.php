@@ -27,12 +27,12 @@ if(isset($_GET['pg'])){
 <?php if(isset($_SESSION['level']) && $_SESSION['level'] == 'level_pemilik'){ ?>
         <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-grup-toko';?>"><i class="fas fa-users-rectangle"></i> &nbsp;Toko</a></li>
 <?php } } ?>
-        <li id="btnRefresh" class="list-group-item"><i class="fas fa-refresh"></i> &nbsp; Refresh</li>
 <?php if(isset($_SESSION['login_access'])){ ?>
         <li id="logout" class="list-group-item"><i class="fas fa-sign-out"></i> &nbsp; Logout</li>
 <?php if(isset($_SESSION['user'])){ ?>
-        <li class="list-group-item"><span class="text-info" style="font-size:.6em"><i class="fas fa-circle border border-white border-3 rounded-circle"></i> </span><?=$_SESSION['user'];?></li>
+        <li class="list-group-item"><span class="text-info" style="font-size:.8em"><i class="fas fa-circle"></i></span> &nbsp; <?=$_SESSION['user'];?></li>
 <?php } } ?>
+        <li id="btnRefresh" class="list-group-item"><i class="fas fa-refresh"></i> &nbsp; Refresh</li>
       </ul>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
