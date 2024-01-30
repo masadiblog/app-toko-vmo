@@ -33,7 +33,8 @@ $omsetBersih = ($totalOmset - $totalKeluar) + ($totalMasuk);
     </div>
   </div>
 <?php if(mysqli_num_rows($dataOmset)){ ?>
-  <div class="tab-auto" style="max-height:41.5vh;margin-bottom:.5rem;font-size:.95em">
+  <div class="px-2 text-center" style="font-size:.8em">Data Omset Bulan <?=$getBulan.' '.$getTahun;?></div>
+  <div class="tab-auto" style="max-height:38.75vh;margin-bottom:.5rem;font-size:.95em">
     <table class="table mb-0">
       <thead>
         <tr>
@@ -70,6 +71,18 @@ while($rowOmset = mysqli_fetch_array($dataOmset)){
         </tr>
 <?php } ?>
       </tbody>
+    </table>
+    
+    <div style="position:sticky;bottom:0;font-size:.9em" class="text-bg-dark text-center py-2 px-3">
+      <div><?=number_format($totalOmset,0,',','.').' - '.number_format($totalKeluar,0,',','.');?></div>
+      <div><?=number_format($sisaOmset,0,',','.').' + '.number_format($totalMasuk,0,',','.');?></div>
+      <div class="d-flex justify-content-between align-items-center mt-1 pt-1 border-top border-info">
+        <div>Omset <span class="badge text-bg-light rounded-circle"><?=mysqli_num_rows($dataOmset);?></span> Hari</div>
+        <span class="text-bg-info rounded py-1 px-2 fw-bold"><?=number_format($omsetBersih,0,',','.');?></span>
+      </div>
+    </div>
+    
+    <!--
       <tfoot style="position:sticky;bottom:0">
         <tr>
           <td colspan="4" class="text-bg-dark text-center"><?=number_format($totalOmset,0,',','.').' - '.number_format($totalKeluar,0,',','.');?></td>
@@ -86,11 +99,11 @@ while($rowOmset = mysqli_fetch_array($dataOmset)){
           </td>
         </tr>
       </tfoot>
-    </table>
+    </table>-->
   </div>
 <?php
 }else{
-  echo '<div class="my-5 text-center text-muted">Tidak ditemukan!</div>';
+  echo '<div class="my-5 text-center text-muted">Data belum tersedia!</div>';
 }
 $dataKeluar = mysqli_query($con, "SELECT * FROM tb_keluar WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND bulan='$getBulan' AND tahun='$getTahun' ORDER BY tanggal ASC");
 if(mysqli_num_rows($dataKeluar)){
@@ -117,6 +130,14 @@ if(mysqli_num_rows($dataKeluar)){
         </tr>
 <?php } ?>
       </tbody>
+    </table>
+    <div style="position:sticky;bottom:0;font-size:.9em" class="text-bg-dark text-center py-2 px-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center"><span class="badge text-bg-light rounded-circle"><?=mysqli_num_rows($dataKeluar);?></span>&nbsp;Data Keluar</div>
+        <span class="text-bg-danger rounded py-1 px-2 fw-bold"><?=number_format($totalKeluar,0,',','.');?></span>
+      </div>
+    </div>
+    <!--
       <tfoot style="position:sticky;bottom:0">
         <tr class="border-dark">
           <td colspan="6" class="text-bg-dark text-center">
@@ -127,7 +148,7 @@ if(mysqli_num_rows($dataKeluar)){
           </td>
         </tr>
       </tfoot>
-    </table>
+    </table>-->
   </div>
 <?php
 }
@@ -156,6 +177,14 @@ if(mysqli_num_rows($dataMasuk)){
         </tr>
 <?php } ?>
       </tbody>
+    </table>
+    <div style="position:sticky;bottom:0;font-size.9em" class="text-bg-dark text-center py-1 px-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center"><span class="badge text-bg-light rounded-circle"><?=mysqli_num_rows($dataMasuk);?></span>&nbsp;Data Masuk</div>
+        <span class="text-bg-primary rounded py-1 px-2 fw-bold"><?=number_format($totalMasuk,0,',','.');?></span>
+      </div>
+    </div>
+    <!--
       <tfoot style="position:sticky;bottom:0">
         <tr class="border-dark">
           <td colspan="6" class="text-bg-dark text-center">
@@ -166,7 +195,7 @@ if(mysqli_num_rows($dataMasuk)){
           </td>
         </tr>
       </tfoot>
-    </table>
+    </table>-->
   </div>
 <?php } ?>
 </div>
