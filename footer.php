@@ -30,7 +30,7 @@ if(isset($_GET['pg'])){
 <?php if(isset($_SESSION['login_access'])){ ?>
         <li id="logout" class="list-group-item"><i class="fas fa-sign-out"></i> &nbsp; Logout</li>
 <?php if(isset($_SESSION['user'])){ ?>
-        <li class="list-group-item"><span class="text-info" style="font-size:.8em"><i class="fas fa-circle"></i></span> &nbsp; <?=$_SESSION['user'];?></li>
+        <li class="list-group-item"><span class="text-info" style="font-size:.8em"><i class="fas fa-circle"></i></span> &nbsp; <?=substr($_SESSION['user'],0,10);?></li>
 <?php } } ?>
         <li id="btnRefresh" class="list-group-item"><i class="fas fa-refresh"></i> &nbsp; Refresh</li>
       </ul>
