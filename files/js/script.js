@@ -2222,7 +2222,9 @@ if(qs('#omsetForm') != null){
   }
   batal.onclick = () => {
     form.reset();
-    err.innerText = '';
+    for(let i = 0; i < err.length; i++){
+      err[i].innerText = '';
+    }
   }
 }
 
