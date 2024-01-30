@@ -75,3 +75,43 @@ bulan VARCHAR(12) NOT NULL,
 tahun VARCHAR(5) NOT NULL,
 PRIMARY KEY(id_catatan)
 );
+
+/* omha */
+CREATE TABLE IF NOT EXISTS tb_omha(
+id_omha INT(11) NOT NULL AUTO_INCREMENT,
+id_grup INT(11) NOT NULL,
+id_toko INT(11) NOT NULL,
+omset VARCHAR(10) NOT NULL,
+tanggal VARCHAR(2) NOT NULL,
+bulan VARCHAR(12) NOT NULL,
+tahun VARCHAR(5) NOT NULL,
+PRIMARY KEY(id_omha)
+);
+
+/* keluar */
+CREATE TABLE IF NOT EXISTS tb_keluar(
+id_keluar INT(11) NOT NULL AUTO_INCREMENT,
+id_grup INT(11) NOT NULL,
+id_toko INT(11) NOT NULL,
+nama VARCHAR(50) NOT NULL,
+jumlah VARCHAR(10) NOT NULL,
+keterangan TEXT NOT NULL,
+tanggal VARCHAR(2) NOT NULL,
+bulan VARCHAR(12) NOT NULL,
+tahun VARCHAR(5) NOT NULL,
+PRIMARY KEY(id_keluar)
+);
+
+/* masuk */
+CREATE TABLE IF NOT EXISTS tb_masuk(
+id_masuk INT(11) NOT NULL AUTO_INCREMENT,
+id_grup INT(11) NOT NULL,
+id_toko INT(11) NOT NULL,
+nama VARCHAR(50) NOT NULL,
+jumlah VARCHAR(10) NOT NULL,
+keterangan TEXT NOT NULL,
+tanggal VARCHAR(2) NOT NULL,
+bulan VARCHAR(12) NOT NULL,
+tahun VARCHAR(5) NOT NULL,
+PRIMARY KEY(id_masuk)
+);
