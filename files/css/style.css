@@ -604,7 +604,7 @@ body{
 }
 .menu-slide.active ul{
   right: 10px!important;
-  box-shadow: 0 0 0 1px #0476a8;
+  box-shadow: 0 0 0 1px #07316d;
 }
 .menu-slide ul::after{
   content: '';
@@ -613,15 +613,15 @@ body{
   width: 20px;
   right: -5px;
   top: 50%;
-  border-top: 1px solid #0476a8;
-  border-right: 1px solid #0476a8;
-  background-color: var(--biru);
+  border-top: 1px solid #07316d;
+  border-right: 1px solid #07316d;
+  background-color: white;
   transform: translateY(-50%) rotate(45deg);
   z-index: -1;
 }
 .menu-slide ul > li{
-  background-color: var(--biru);
-  border-color: var(--biru);
+  background-color: white;
+  border-color: white;
   color: #07316d;
 }
 .menu-slide ul > li a{
