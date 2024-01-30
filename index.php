@@ -19,6 +19,11 @@ switch($page){
     require 'admin/input-modal.php';
     require 'footer.php';
     break;
+  case 'omha':
+    require 'header.php';
+    require 'admin/omha.php';
+    require 'footer.php';
+    break;
   case 'catatan':
     require 'header.php';
     require 'admin/catatan.php';

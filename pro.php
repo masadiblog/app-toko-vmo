@@ -9,6 +9,13 @@ if(isset($_SESSION['login_access'])){
   $idgrup = $idtoko = '';
 }
 
+function localDate($loda){
+  $tgl = explode('-', $loda);
+  $bln = $tgl[1];
+  switch($bln){ case '01': $bln = 'Januari'; break; case '02': $bln = 'Februari'; break; case '03': $bln = 'Maret'; break; case '04': $bln = 'April'; break; case '05': $bln = 'Mei'; break; case '06': $bln = 'Juni'; break; case '07': $bln = 'Juli'; break; case '08': $bln = 'Agustus'; break; case '09': $bln = 'September'; break; case '10': $bln = 'Oktober'; break; case '11': $bln = 'November'; break; case '12': $bln = 'Desember'; break; }
+  return $tgl[2].' '.$bln.' '.$tgl[0];
+}
+
 if(isset($_POST['register']) && $_POST['register'] == true){
   $idgrup = '';
   $idtoko = '';
@@ -1033,6 +1040,354 @@ if(isset($_POST['cari-catatan']) && $_POST['cari-catatan'] == true){
     </tr>
     ';
   }
+  exit;
+}
+
+if(isset($_POST['input-omset']) && $_POST['input-omset'] == true){
+  $omset = str_replace('.', '',htmlentities($_POST['omset']));
+  $tgl = explode(' ', localDate(htmlentities($_POST['tanggal'])));
+  $tanggal = $tgl[0];
+  $bulan = $tgl[1];
+  $tahun = $tgl[2];
+  if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM tb_omha WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND tanggal='$tanggal' AND bulan='$bulan' AND tahun='$tahun'")) === 0){
+    if(mysqli_query($con, "INSERT INTO tb_omha VALUES(NULL, '$idgrup', '$idtoko', '$omset', '$tanggal', '$bulan', '$tahun')")){
+      $data = array(
+        'oke' => true,
+        'title' => 'Berhasil',
+        'text' => 'Omset berhasil ditambahkan.',
+        'icon' => 'success',
+        'btn' => 'Oke',
+      );
+    }else{
+      $data = array(
+        'not' => true,
+        'title' => 'Gagal',
+        'text' => 'Omset gagal ditambahkan.',
+        'icon' => 'failed',
+        'btn' => 'Tutup',
+      );
+    }
+  }else{
+    $data = array(
+      'not' => true,
+      'title' => 'Gagal',
+      'text' => 'Omset pada tanggal '.$tanggal.' '.$bulan.' '.$tahun.' sudah ada!',
+      'icon' => 'failed',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['edit-omset']) && $_POST['edit-omset'] == true){
+  $id = htmlentities($_POST['id']);
+  $omset = str_replace('.', '',htmlentities($_POST['omset']));
+  if($_POST['tanggal'] != ''){
+    $tgl = explode(' ',localDate(htmlentities($_POST['tanggal'])));
+    $tanggal = $tgl[0];
+    $bulan = $tgl[1];
+    $tahun = $tgl[2];
+  }else{
+    $sel = mysqli_query($con, "SELECT * FROM tb_omha WHERE id_omha='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+    $row = mysqli_fetch_array($sel);
+    $tanggal = $row['tanggal'];
+    $bulan = $row['bulan'];
+    $tahun = $row['tahun'];
+  }
+  if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM tb_omha WHERE id_omha<>'$id' AND id_grup='$idgrup' AND id_toko='$idtoko' AND tanggal='$tanggal' AND bulan='$bulan' AND tahun='$tahun'")) === 0){
+    if(mysqli_query($con, "UPDATE tb_omha SET omset='$omset', tanggal='$tanggal', bulan='$bulan', tahun='$tahun' WHERE id_omha='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'")){
+      $data = array(
+        'oke' => true,
+        'title' => 'Berhasil',
+        'text' => 'Omset berhasil disimpan.',
+        'icon' => 'success',
+        'btn' => 'Oke',
+      );
+    }else{
+      $data = array(
+        'oke' => true,
+        'title' => 'Gagal',
+        'text' => 'Omset gagal disimpan!',
+        'icon' => 'failed',
+        'btn' => 'Tutup',
+      );
+    }
+  }else{
+    $data = array(
+      'not' => true,
+      'title' => 'Gagal',
+      'text' => 'Omset pada tanggal '.$tanggal.' '.$bulan.' '.$tahun.' sudah ada!',
+      'icon' => 'failed',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['input-keluar']) && $_POST['input-keluar'] == true){
+  $nama = htmlentities($_POST['nama']);
+  $jumlah = str_replace('.', '',htmlentities($_POST['jumlah']));
+  $keterangan = str_replace("\n", '<br>',htmlentities($_POST['keterangan']));
+  $tgl = explode(' ',localDate(htmlentities($_POST['tanggal'])));
+  $tanggal = $tgl[0];
+  $bulan = $tgl[1];
+  $tahun = $tgl[2];
+  if(mysqli_query($con, "INSERT INTO tb_keluar VALUES(NULL, '$idgrup', '$idtoko', '$nama', '$jumlah', '$keterangan', '$tanggal', '$bulan', '$tahun')")){
+    $data = array(
+      'oke' => true,
+      'title' => 'Berhasil',
+      'text' => 'Data berhasil disimpan.',
+      'icon' => 'success',
+      'btn' => 'Oke',
+    );
+  }else{
+    $data = array(
+      'oke' => true,
+      'title' => 'Gagal',
+      'text' => 'Data gagal disimpan!',
+      'icon' => 'failed',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['input-masuk']) && $_POST['input-masuk'] == true){
+  $nama = htmlentities($_POST['nama']);
+  $jumlah = str_replace('.', '',htmlentities($_POST['jumlah']));
+  $keterangan = str_replace("\n", '<br>',htmlentities($_POST['keterangan']));
+  $tgl = explode(' ',localDate(htmlentities($_POST['tanggal'])));
+  $tanggal = $tgl[0];
+  $bulan = $tgl[1];
+  $tahun = $tgl[2];
+  if(mysqli_query($con, "INSERT INTO tb_masuk VALUES(NULL, '$idgrup', '$idtoko', '$nama', '$jumlah', '$keterangan', '$tanggal', '$bulan', '$tahun')")){
+    $data = array(
+      'oke' => true,
+      'title' => 'Berhasil',
+      'text' => 'Data berhasil disimpan.',
+      'icon' => 'success',
+      'btn' => 'Oke',
+    );
+  }else{
+    $data = array(
+      'oke' => true,
+      'title' => 'Gagal',
+      'text' => 'Data gagal disimpan!',
+      'icon' => 'failed',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['hapus-omset']) && $_POST['hapus-omset'] == true){
+  $id = htmlentities($_POST['id']);
+  if(mysqli_query($con, "DELETE FROM tb_omha WHERE id_omha='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'")){
+    $data = array(
+      'oke' => true,
+      'title' => 'Berhasil',
+      'text' => 'Data berhasil dihapus.',
+      'icon' => 'success',
+      'btn' => 'Oke',
+    );
+  }else{
+    $data = array(
+      'not' => true,
+      'title' => 'Gagal',
+      'text' => 'Data gagal dihapus!',
+      'icon' => 'failed',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['detail-keluar']) && $_POST['detail-keluar'] == true){
+  $id = htmlentities($_POST['id']);
+  $sel = mysqli_query($con, "SELECT * FROM tb_keluar WHERE id_keluar='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+  if(mysqli_num_rows($sel)){
+    $row = mysqli_fetch_array($sel);
+    $data = array(
+      'oke' => true,
+      'title' => 'Detail Keluar',
+      'text' => '
+        <h6>'.$row['nama'].'</h6>
+        <p class="mb-1" style="font-size:.8em"><span class="bg-light text-muted">Data tanggal '.$row['tanggal'].' '.$row['bulan'].' '.$row['tahun'].'</span></p>
+        <p>'.number_format($row['jumlah'],0,',','.').', '.$row['keterangan'].'</p>
+      ',
+      'icon' => 'success',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['detail-masuk']) && $_POST['detail-masuk'] == true){
+  $id = htmlentities($_POST['id']);
+  $sel = mysqli_query($con, "SELECT * FROM tb_masuk WHERE id_masuk='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+  if(mysqli_num_rows($sel)){
+    $row = mysqli_fetch_array($sel);
+    $data = array(
+      'oke' => true,
+      'title' => 'Detail Masuk',
+      'text' => '
+        <h6>'.$row['nama'].'</h6>
+        <p class="mb-1" style="font-size:.8em"><span class="bg-light text-muted">Data tanggal '.$row['tanggal'].' '.$row['bulan'].' '.$row['tahun'].'</span></p>
+        <p>'.number_format($row['jumlah'],0,',','.').', '.$row['keterangan'].'</p>
+      ',
+      'icon' => 'success',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['load-kemas']) && $_POST['load-kemas'] == true){
+  $id = htmlentities($_POST['data-target']);
+  $push = htmlentities($_POST['data-push']);
+  if($push == 'edit-keluar'){
+    $sel = mysqli_query($con, "SELECT * FROM tb_keluar WHERE id_keluar='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+    $row = mysqli_fetch_array($sel);
+  }else{
+    $sel = mysqli_query($con, "SELECT * FROM tb_masuk WHERE id_masuk='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+    $row = mysqli_fetch_array($sel);
+  }
+  $bulan = $row['bulan'];
+  switch($bulan){
+    case 'Januari': $bulan = '01'; break;
+    case 'Februari': $bulan = '02'; break;
+    case 'Maret': $bulan = '03'; break;
+    case 'April': $bulan = '04'; break;
+    case 'Mei': $bulan = '05'; break;
+    case 'Juni': $bulan = '06'; break;
+    case 'Juli': $bulan = '07'; break;
+    case 'Agustus': $bulan = '08'; break;
+    case 'September': $bulan = '09'; break;
+    case 'Oktober': $bulan = '10'; break;
+    case 'November': $bulan = '11'; break;
+    case 'Desember': $bulan = '12'; break;
+  }
+  $data = array(
+    'oke' => true,
+    'nama' => $row['nama'],
+    'jumlah' => number_format($row['jumlah'],0,',','.'),
+    'keterangan' => $row['keterangan'],
+    'tanggal' => $row['tahun'].'-'.$bulan.'-'.$row['tanggal'],
+  );
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['edit-keluar']) && $_POST['edit-keluar'] == true){
+  $id = htmlentities($_POST['id']);
+  $nama = htmlentities($_POST['nama']);
+  $jumlah = str_replace('.', '',htmlentities($_POST['jumlah']));
+  $keterangan = str_replace("\n", '<br>',htmlentities($_POST['keterangan']));
+  $tgl = explode(' ',localDate(htmlentities($_POST['tanggal'])));
+  $tanggal = $tgl[0];
+  $bulan = $tgl[1];
+  $tahun = $tgl[2];
+  if(mysqli_query($con, "UPDATE tb_keluar SET nama='$nama', jumlah='$jumlah', keterangan='$keterangan', tanggal='$tanggal', bulan='$bulan', tahun='$tahun' WHERE id_keluar='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'")){
+    $data = array(
+      'oke' => true,
+      'title' => 'Berhasil',
+      'text' => 'Data keluar berhasil disimpan.',
+      'icon' => 'success',
+      'btn' => 'Oke',
+    );
+  }else{
+    $data = array(
+      'not' => true,
+      'title' => 'Gagal',
+      'text' => 'Data keluar gagal disimpan!',
+      'icon' => 'failed',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['edit-masuk']) && $_POST['edit-masuk'] == true){
+  $id = htmlentities($_POST['id']);
+  $nama = htmlentities($_POST['nama']);
+  $jumlah = str_replace('.', '',htmlentities($_POST['jumlah']));
+  $keterangan = str_replace("\n", '<br>',htmlentities($_POST['keterangan']));
+  $tgl = explode(' ',localDate(htmlentities($_POST['tanggal'])));
+  $tanggal = $tgl[0];
+  $bulan = $tgl[1];
+  $tahun = $tgl[2];
+  if(mysqli_query($con, "UPDATE tb_masuk SET nama='$nama', jumlah='$jumlah', keterangan='$keterangan', tanggal='$tanggal', bulan='$bulan', tahun='$tahun' WHERE id_masuk='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'")){
+    $data = array(
+      'oke' => true,
+      'title' => 'Berhasil',
+      'text' => 'Data masuk berhasil disimpan.',
+      'icon' => 'success',
+      'btn' => 'Oke',
+    );
+  }else{
+    $data = array(
+      'not' => true,
+      'title' => 'Gagal',
+      'text' => 'Data masuk gagal disimpan!',
+      'icon' => 'failed',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['hapus-keluar']) && $_POST['hapus-keluar'] == true){
+  $id = htmlentities($_POST['id']);
+  if(mysqli_query($con, "DELETE FROM tb_keluar WHERE id_keluar='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'")){
+    $data = array(
+      'oke' => true,
+      'title' => 'Berhasil',
+      'text' => 'Data keluar berhasil dihapus.',
+      'icon' => 'success',
+      'btn' => 'Oke',
+    );
+  }else{
+    $data = array(
+      'not' => true,
+      'title' => 'Gagal',
+      'text' => 'Data keluar gagal dihapus!',
+      'icon' => 'failed',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
+  exit;
+}
+
+if(isset($_POST['hapus-masuk']) && $_POST['hapus-masuk'] == true){
+  $id = htmlentities($_POST['id']);
+  if(mysqli_query($con, "DELETE FROM tb_masuk WHERE id_masuk='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'")){
+    $data = array(
+      'oke' => true,
+      'title' => 'Berhasil',
+      'text' => 'Data masuk berhasil dihapus.',
+      'icon' => 'success',
+      'btn' => 'Oke',
+    );
+  }else{
+    $data = array(
+      'not' => true,
+      'title' => 'Gagal',
+      'text' => 'Data masuk gagal dihapus!',
+      'icon' => 'failed',
+      'btn' => 'Tutup',
+    );
+  }
+  echo json_encode($data);
   exit;
 }
 ?>

@@ -17,20 +17,21 @@ if(isset($_GET['pg'])){
     <div id="menuSlide" class="menu-slide">
       <ul class="list-group" style="white-space:nowrap">
 <?php if(isset($_SESSION['login_access']) && $namaToko != ''){ if(isset($_GET['pg'])){ ?>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url;?>"><i class="fas fa-home"></i> Home</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url;?>"><i class="fas fa-home"></i> &nbsp; Home</a></li>
 <?php } ?>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-penjualan&bulan='.strtolower($month_now).'&tahun='.$year_now;?>"><i class="fas fa-table-list"></i> Penjualan</a></li>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=input-produk';?>"><i class="fas fa-pen"></i> Produk</a></li>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=catatan';?>"><i class="fas fa-edit"></i> Catatan</a></li>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-admin';?>"><i class="fas fa-user-group"></i> Admin</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-penjualan&bulan='.strtolower($month_now).'&tahun='.$year_now;?>"><i class="fas fa-table-list"></i> &nbsp; Penjualan</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=omha';?>"><i class="fas fa-table"></i> &nbsp; Harian</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=input-produk';?>"><i class="fas fa-pen"></i> &nbsp; Produk</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=catatan';?>"><i class="fas fa-edit"></i> &nbsp; Catatan</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-admin';?>"><i class="fas fa-user-group"></i> &nbsp;Admin</a></li>
 <?php if(isset($_SESSION['level']) && $_SESSION['level'] == 'level_pemilik'){ ?>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-grup-toko';?>"><i class="fas fa-users-rectangle"></i> Grup &amp; Toko</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-grup-toko';?>"><i class="fas fa-users-rectangle"></i> &nbsp;Toko</a></li>
 <?php } } ?>
-        <li id="btnRefresh" class="list-group-item"><i class="fas fa-refresh"></i> Refresh</li>
+        <li id="btnRefresh" class="list-group-item"><i class="fas fa-refresh"></i> &nbsp; Refresh</li>
 <?php if(isset($_SESSION['login_access'])){ ?>
-        <li id="logout" class="list-group-item"><i class="fas fa-sign-out"></i> Logout</li>
+        <li id="logout" class="list-group-item"><i class="fas fa-sign-out"></i> &nbsp; Logout</li>
 <?php if(isset($_SESSION['user'])){ ?>
-        <li class="list-group-item"><span class="text-primary" style="font-size:.9em"><i class="fas fa-circle"></i> </span><?=$_SESSION['user'];?></li>
+        <li class="list-group-item"><span class="text-info" style="font-size:.6em"><i class="fas fa-circle border border-white border-3 rounded-circle"></i> </span><?=$_SESSION['user'];?></li>
 <?php } } ?>
       </ul>
     </div>
