@@ -389,7 +389,7 @@ if(qs('#input-admin') != null){
           const res = JSON.parse(this.responseText);
           ani_hide();
           if(res.oke === true){
-            modal_hide('.modal');
+            modal_hide(qs('.modal'));
             alertBox({
               title: res.title,
               text: res.text,
@@ -718,7 +718,7 @@ if(qs('#editGrup') != null){
             const res = JSON.parse(this.responseText);
             ani_hide();
             if(res.oke === true){
-              modal_hide('.modal');
+              modal_hide(qs('.modal'));
               alertBox({
                 title: res.title,
                 text: res.text,
@@ -1320,7 +1320,7 @@ if(qs('#cari-data') != null){
                     const res = JSON.parse(this.responseText);
                     ani_hide();
                     if(res.oke === true){
-                      modal_hide('.modal');
+                      modal_hide(qs('.modal'));
                       alertBox({
                         title: res.title,
                         text: res.text,
@@ -1472,7 +1472,7 @@ if(qs('#editData') != null){
               const res = JSON.parse(this.responseText);
               ani_hide();
               if(res.oke === true){
-                modal_hide('.modal');
+                modal_hide(qs('.modal'));
                 alertBox({
                   title: res.title,
                   text: res.text,
@@ -1843,7 +1843,7 @@ if(qs('#btn-edit') != null){
               const res = JSON.parse(this.responseText);
               ani_hide();
               if(res.oke === true){
-                modal_hide('.modal');
+                modal_hide(qsa('.modal')[1]);
                 alertBox({
                   title: res.title,
                   text: res.text,
@@ -2140,6 +2140,470 @@ if(qs('#cacat') != null){
       }
     };
     pro.send(data);
+  }
+}
+
+if(qs('#btnOmset') != null){
+  qs('#btnOmset').onclick = (e) => {
+    e.preventDefault();
+    qs('#omsetForm').setAttribute('data-push', 'input-omset');
+    qs('#omsetForm h5').innerText = 'Tambah Omset';
+    setTimeout(function(){
+      qs('#omsetForm #omset').focus();
+    },500);
+  }
+}
+
+if(qs('#omsetForm') != null){
+  const form = qs('#omsetForm'),
+  omset = qs('#omsetForm #omset'),
+  tanggal = qs('#omsetForm #tanggal'),
+  err = qsa('#omsetForm .err'),
+  batal = qs('#omsetForm #batal');
+  omset.oninput = () => {
+    omset.value = fornum(omset.value);
+  }
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const input_push = form.getAttribute('data-push'),
+    dataId = form.getAttribute('data-id');
+    for(let i = 0; i < err.length; i++){
+      err[i].innerText = '';
+    }
+    if(omset.value == ''){
+      omset.focus();
+      err[0].innerText = 'Masukkan omset!';
+      return false;
+    }else if(input_push != 'edit-omset' && tanggal.value == ''){
+      tanggal.focus();
+      err[1].innerText = 'Pilih tanggal!';
+      return false;
+    }else{
+      const data = new FormData();
+      if(input_push == 'edit-omset'){
+        data.append('id', dataId);
+      }
+      data.append('omset', omset.value);
+      data.append('tanggal', tanggal.value);
+      data.append(input_push, true);
+      const pro = new XMLHttpRequest();
+      pro.open('post', 'pro.php', true);
+      pro.onloadstart = function(){
+        ani_show();
+      };
+      pro.onreadystatechange = function(){
+        if(this.readyState === 4 && this.status === 200){
+          const res = JSON.parse(this.responseText);
+          ani_hide();
+          if(res.oke === true){
+            modal_hide(qsa('.modal')[0]);
+            alertBox({
+              title: res.title,
+              text: res.text,
+              icon: res.icon,
+              oke: res.btn,
+            });
+            next = () => {
+              window.location.reload();
+            }
+          }else if(res.not === true){
+            alertBox({
+              title: res.title,
+              text: res.text,
+              icon: res.icon,
+              not: res.btn,
+            });
+            return false;
+          }
+        }
+      };
+      pro.send(data);
+    }
+  }
+  batal.onclick = () => {
+    form.reset();
+    err.innerText = '';
+  }
+}
+
+if(qs('#btnKeluar') != null){
+  qs('#btnKeluar').onclick = (e) => {
+    e.preventDefault();
+    qs('#kemasForm').setAttribute('data-target', '');
+    qs('#kemasForm').setAttribute('data-push', 'input-keluar');
+    qs('#kemasForm h5').innerText = 'Input Keluar';
+    setTimeout(function(){
+      qs('#kemasForm #nama').focus();
+    },500);
+  }
+}
+
+if(qs('#btnMasuk') != null){
+  const btn = qsa('#btnMasuk');
+  for(let i = 0; i < btn.length; i++){
+    btn[i].onclick = (e) => {
+      e.preventDefault();
+      qs('#kemasForm').setAttribute('data-target', btn[i].getAttribute('data-target'));
+      qs('#kemasForm').setAttribute('data-push', 'input-masuk');
+      qs('#kemasForm h5').innerText = 'Input Masuk';
+      setTimeout(function(){
+        qs('#kemasForm #nama').focus();
+      },500);
+    }
+  }
+}
+
+if(qs('#kemasForm') != null){
+  const form = qs('#kemasForm'),
+  nama = qs('#kemasForm #nama'),
+  jumlah = qs('#kemasForm #jumlah'),
+  keterangan = qs('#kemasForm #keterangan'),
+  tanggal = qs('#kemasForm #tanggal'),
+  err = qsa('#kemasForm .err'),
+  batal = qs('#kemasForm #batal');
+  nama.oninput = () => {
+    nama.value = ucfirst(nama.value);
+  }
+  jumlah.oninput = () => {
+    jumlah.value = fornum(jumlah.value);
+  }
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    for(let i = 0; i < err.length; i++){
+      err[i].innerText = '';
+    }
+    if(nama.value == ''){
+      nama.focus();
+      err[0].innerText = 'Masukkan nama!';
+      return false;
+    }else if(nama.value.length > 50){
+      nama.focus();
+      err[0].innerText = 'Maksimal 50 karakter!';
+      return false;
+    }else if(jumlah.value == ''){
+      jumlah.focus();
+      err[1].innerText = 'Masukkan jumlah!';
+      return false;
+    }else if(keterangan.value == ''){
+      keterangan.focus();
+      err[2].innerText = 'Masukkan keterangan';
+      return false;
+    }else if(tanggal.value == ''){
+      tanggal.focus();
+      err[3].innerText = 'Pilih tanggal!';
+      return false;
+    }else{
+      const input_push = form.getAttribute('data-push'),
+      data_id = form.getAttribute('data-target');
+      const data = new FormData();
+      data.append('id', data_id);
+      data.append('nama', nama.value);
+      data.append('jumlah', jumlah.value);
+      data.append('keterangan', keterangan.value);
+      data.append('tanggal', tanggal.value);
+      data.append(input_push, true);
+      const pro = new XMLHttpRequest();
+      pro.open('post', 'pro.php', true);
+      pro.onloadstart = function(){
+        ani_show();
+      };
+      pro.onreadystatechange = function(){
+        if(this.readyState === 4 && this.status === 200){
+          const res = JSON.parse(this.responseText);
+          ani_hide();
+          if(res.oke === true){
+            modal_hide(qsa('.modal')[1]);
+            alertBox({
+              title: res.title,
+              text: res.text,
+              icon: res.icon,
+              oke: res.btn,
+            });
+            next = () => {
+              window.location.reload();
+            }
+          }else if(res.not === true){
+            alertBox({
+              title: res.title,
+              text: res.text,
+              icon: res.icon,
+              not: res.btn,
+            });
+            return false;
+          }
+        }
+      };
+      pro.send(data);
+    }
+  }
+  batal.onclick = () => {
+    form.reset();
+    for(let i = 0; i < err.length; i++){
+      err[i].innerText = '';
+    }
+  }
+}
+
+if(qs('#btn_edoms') != null){
+  const btn = qsa('#btn_edoms');
+  for(let i = 0; i < btn.length; i++){
+    btn[i].onclick = () => {
+      const dataId = btn[i].getAttribute('data-id'),
+      dataOmset = btn[i].getAttribute('data-omset'),
+      dataTanggal = btn[i].getAttribute('data-tanggal'),
+      form = qs('#omsetForm'),
+      title = qs('#omsetForm h5'),
+      omset = qs('#omsetForm #omset'),
+      tanggal = qs('#omsetForm #tanggal');
+      form.setAttribute('data-id', dataId);
+      form.setAttribute('data-push', 'edit-omset');
+      title.innerText = 'Edit Omset';
+      omset.value = dataOmset;
+      tanggal.value = dataTanggal;
+    }
+  }
+}
+
+if(qs('#btn_haoms') != null){
+  const btn = qsa('#btn_haoms');
+  for(let i = 0; i < btn.length; i++){
+    btn[i].onclick = () => {
+      alertBox({
+        title: 'Konfirmasi',
+        text: 'Ingin dihapus?',
+        icon: 'warning',
+        not: 'Batal',
+        oke: 'Hapus',
+      });
+      next = () => {
+        const data = new FormData();
+        data.append('id', dataId = btn[i].getAttribute('data-id'));
+        data.append('hapus-omset', true);
+        const pro = new XMLHttpRequest();
+        pro.open('post', 'pro.php', true);
+        pro.onloadstart = function(){
+          ani_show();
+        };
+        pro.onreadystatechange = function(){
+          if(this.readyState === 4 && this.status === 200){
+            const res = JSON.parse(this.responseText);
+            ani_hide();
+            if(res.oke === true){
+              alertBox({
+                title: res.title,
+                text: res.text,
+                icon: res.icon,
+                oke: res.btn,
+              });
+              next = () => {
+                window.location.reload();
+              }
+            }else if(res.not === true){
+              alertBox({
+                title: res.title,
+                text: res.text,
+                icon: res.icon,
+                not: res.btn,
+              });
+              return false;
+            }
+          }
+        };
+        pro.send(data);
+      }
+    }
+  }
+}
+
+if(qs('#btn_detail_kemas') != null){
+  const btn = qsa('#btn_detail_kemas');
+  for(let i = 0; i < btn.length; i++){
+    btn[i].onclick = () => {
+      const data_push = btn[i].getAttribute('data-push'),
+      data_id = btn[i].getAttribute('data-id');
+      const data = new FormData();
+      data.append('id', data_id);
+      data.append(data_push, true);
+      const pro = new XMLHttpRequest();
+      pro.open('post', 'pro.php', true);
+      pro.onloadstart = function(){
+        ani_show();
+      };
+      pro.onreadystatechange = function(){
+        if(this.readyState === 4 && this.status === 200){
+          const res = JSON.parse(this.responseText);
+          ani_hide();
+          if(res.oke === true){
+            alertBox({
+              title: res.title,
+              text: res.text,
+              icon: res.icon,
+              not: res.btn,
+            });
+          }
+        }
+      };
+      pro.send(data);
+    }
+  }
+}
+
+if(qs('#btn_edit_kemas') != null){
+  const btn = qsa('#btn_edit_kemas');
+  for(let i = 0; i < btn.length; i++){
+    btn[i].onclick = () => {
+      const data_push = btn[i].getAttribute('data-push'),
+      data_id = btn[i].getAttribute('data-id'),
+      form = qs('#kemasForm'),
+      title = qs('#kemasForm h5'),
+      nama = qs('#kemasForm #nama'),
+      jumlah = qs('#kemasForm #jumlah'),
+      keterangan = qs('#kemasForm #keterangan'),
+      tanggal = qs('#kemasForm #tanggal');
+      if(data_push == 'edit-keluar'){
+        title.innerText = 'Edit Data Keluar';
+      }else{
+        title.innerText = 'Edit Data Masuk';
+      }
+      form.setAttribute('data-target', data_id);
+      form.setAttribute('data-push', data_push);
+      const data = new FormData();
+      data.append('data-target', data_id);
+      data.append('data-push', data_push);
+      data.append('load-kemas', true);
+      const pro = new XMLHttpRequest();
+      pro.open('post', 'pro.php', true);
+      pro.onreadystatechange = function(){
+        if(this.readyState === 4 && this.status === 200){
+          const res = JSON.parse(this.responseText);
+          if(res.oke === true){
+            nama.value = res.nama;
+            jumlah.value = res.jumlah;
+            keterangan.value = res.keterangan;
+            tanggal.value = res.tanggal;
+          }
+        }
+      };
+      pro.send(data);
+    }
+  }
+}
+
+if(qs('#btn_hapus_kemas') != null){
+  const btn = qsa('#btn_hapus_kemas');
+  for(let i = 0; i < btn.length; i++){
+    btn[i].onclick = () => {
+      const data_push = btn[i].getAttribute('data-push'),
+      data_id = btn[i].getAttribute('data-id');
+      let daha;
+      if(data_push == 'hapus-keluar'){
+        daha = 'keluar';
+      }else{
+        daha = 'masuk';
+      }
+      alertBox({
+        title: 'Konfirmasi',
+        text: `Hapus data ${daha} ?`,
+        icon: 'warning',
+        oke: 'Hapus',
+        not: 'Batal',
+      });
+      next = () => {
+        const data = new FormData();
+        data.append('id', data_id);
+        data.append(data_push, true);
+        const pro = new XMLHttpRequest();
+        pro.open('post', 'pro.php', true);
+        pro.onloadstart = function(){
+          ani_show();
+        };
+        pro.onreadystatechange = function(){
+          if(this.readyState === 4 && this.status === 200){
+            const res = JSON.parse(this.responseText);
+            ani_hide();
+            if(res.oke === true){
+              alertBox({
+                title: res.title,
+                text: res.text,
+                icon: res.icon,
+                oke: res.btn,
+              });
+              next = () => {
+                window.location.reload();
+              }
+            }else if(res.not === true){
+              alertBox({
+                title: res.title,
+                text: res.text,
+                icon: res.icon,
+                not: res.btn,
+              });
+              return false;
+            }
+          }
+        };
+        pro.send(data);
+      }
+    }
+  }
+}
+
+if(qs('#btnTanggal') != null){
+  const btn = qs('#btnTanggal');
+  btn.onclick = (e) => {
+    e.preventDefault();
+    let dlb = btn.getAttribute('data-ls-bulan').split(','),
+    dlt = btn.getAttribute('data-ls-tahun').split(','),
+    data_ls_bulan,
+    data_ls_tahun;
+    for(let i = 0; i < dlb.length; i++){
+      data_ls_bulan += `<option value="${dlb[i]}">${ucfirst(dlb[i])}</option>`;
+    }
+    for(let i = 0; i < dlt.length; i++){
+      data_ls_tahun += `<option value="${dlt[i]}">${dlt[i]}</option>`;
+    }
+    alertBox({
+      title: 'Sortir Omset',
+      text: `
+        <form id="sortir">
+          <div class="row">
+            <div class="col-5">
+              <select id="bulan" class="form-control text-center">
+                <option selected="" value="">Bulan</option>
+                ${data_ls_bulan}
+              </select>
+            </div>
+            <div class="col-4">
+              <select id="tahun" class="form-control text-center">
+                <option selected="" value="">Tahun</option>
+                ${data_ls_tahun}
+              </select>
+            </div>
+            <div class="col-3">
+              <button type="submit" class="btn text-bg-info"><i class="fas fa-angle-right"></i></button>
+            </div>
+            <div class="err text-center"></div>
+          </div>
+        </form>
+      `,
+      not: 'Tutup',
+    });
+    if(qs('#sortir') != null){
+      const form = qs('#sortir'),
+      bulan = qs('#sortir #bulan'),
+      tahun = qs('#sortir #tahun'),
+      err = qs('#sortir .err');
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        err.innerText = '';
+        if(bulan.value == '' || tahun.value == ''){
+          err.innerText = 'Harap pilih bulan dan tahun!';
+          return false;
+        }else{
+          window.location.href = `?pg=omha&bulan=${bulan.value}&tahun=${tahun.value}`;
+        }
+      }
+    }
   }
 }
 
