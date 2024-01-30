@@ -60,7 +60,7 @@ if(isset($_GET['pg'])){
           menuList.style.width = `${menuList.offsetWidth}px`;
           menuSlide.classList.toggle('active');
           for(let i = 0; i < listItem.length; i++){
-            if(i != listItem.length-2 && i != listItem.length-1){
+            if(i != listItem.length-3 && i != listItem.length-2){
               listItem[i].onclick = () => {
                 qs('.aniload').classList.add('show');
               }
