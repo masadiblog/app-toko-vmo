@@ -44,7 +44,7 @@ if((isset($_SESSION['login_access']))){
           <div class="err"></div>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
+          <label for="password" class="form-label">Password <span class="text-muted" style="font-size:.8em">(wajib huruf besar, kecil, angka)</span></label>
           <div class="input-group">
             <span class="input-group-text"><i class="fas fa-key"></i></span>
             <input type="password" id="password" class="form-control py-2">
