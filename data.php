@@ -13,7 +13,7 @@ if($res_penjualan === 0){
       <select id="selTanggal" class="form-control text-center p-1">
         <option selected="" value="">- -</option>
 <?php
-for($tgl = 1; $tgl < 31; $tgl++){
+for($tgl = 1; $tgl < 32; $tgl++){
   if($tgl < 10){
     $tgl = '0'.$tgl;
   }
