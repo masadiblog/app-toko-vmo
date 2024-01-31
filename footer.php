@@ -20,18 +20,16 @@ if(isset($_GET['pg'])){
         <li class="list-group-item"><a class="nav-link" href="<?=$base_url;?>"><i class="fas fa-home"></i> &nbsp; Home</a></li>
 <?php } ?>
         <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-penjualan&bulan='.strtolower($month_now).'&tahun='.$year_now;?>"><i class="fas fa-table-list"></i> &nbsp; Penjualan</a></li>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=omha';?>"><i class="fas fa-table"></i> &nbsp; Harian</a></li>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=input-produk';?>"><i class="fas fa-pen"></i> &nbsp; Produk</a></li>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=catatan';?>"><i class="fas fa-edit"></i> &nbsp; Catatan</a></li>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-admin';?>"><i class="fas fa-user-group"></i> &nbsp;Admin</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=omha';?>"><i class="fas fa-list-check"></i> &nbsp; Harian</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=input-produk';?>"><i class="fas fa-edit"></i> &nbsp; Produk</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=catatan';?>"><i class="fas fa-note-sticky"></i> &nbsp; Catatan</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-admin';?>"><i class="fas fa-user-group" style="font-size:.9em"></i> &nbsp;Admin</a></li>
 <?php if(isset($_SESSION['level']) && $_SESSION['level'] == 'level_pemilik'){ ?>
-        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-grup-toko';?>"><i class="fas fa-users-rectangle"></i> &nbsp;Toko</a></li>
+        <li class="list-group-item"><a class="nav-link" href="<?=$base_url.'?pg=data-grup-toko';?>"><i class="fas fa-shop" style="font-size:.9em"></i> &nbsp;Toko</a></li>
 <?php } } ?>
 <?php if(isset($_SESSION['login_access'])){ ?>
         <li id="logout" class="list-group-item"><i class="fas fa-sign-out"></i> &nbsp; Logout</li>
-<?php if(isset($_SESSION['user'])){ ?>
-        <li class="list-group-item"><span class="text-info" style="font-size:.8em"><i class="fas fa-circle"></i></span> &nbsp; <?=substr($_SESSION['user'],0,10);?></li>
-<?php } } ?>
+<?php } ?>
         <li id="btnRefresh" class="list-group-item"><i class="fas fa-refresh"></i> &nbsp; Refresh</li>
       </ul>
     </div>
@@ -60,7 +58,7 @@ if(isset($_GET['pg'])){
           menuList.style.width = `${menuList.offsetWidth}px`;
           menuSlide.classList.toggle('active');
           for(let i = 0; i < listItem.length; i++){
-            if(i != listItem.length-3 && i != listItem.length-2){
+            if(i != listItem.length-2){
               listItem[i].onclick = () => {
                 qs('.aniload').classList.add('show');
               }
