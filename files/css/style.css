@@ -258,6 +258,20 @@ body{
 .alert-box.active{
   transform: scale(1);
 }
+.alert-box.scale{
+  animation: scale .5s ease-in-out;
+}
+@keyframes scale{
+  from{
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(1.05);
+  }
+  to{
+    transform: scale(1);
+  }
+}
 .alert-box .box{
   position: absolute;
   width: 90%;
