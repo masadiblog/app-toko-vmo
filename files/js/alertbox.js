@@ -70,4 +70,10 @@ function alertBox(data){
   }
   alert_box.appendChild(box);
   qs('body').appendChild(alert_box);
+  alert_box.onclick = () => {
+    alert_box.classList.add('scale');
+    setTimeout(function(){
+      alert_box.classList.remove('scale');
+    },500);
+  }
 }
