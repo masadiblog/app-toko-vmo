@@ -36,7 +36,7 @@ if((isset($_SESSION['login_access']))){
           <p class="text-muted">Lengkapi Formulir Pendaftaran</p>
         </div>
         <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
+          <label for="username" class="form-label">Username <span class="text-muted" style="font-size:.8em">(wajib huruf besar, kecil, angka)</span></label>
           <div class="input-group">
             <span class="input-group-text"><i class="fas fa-at"></i></span>
             <input type="text" id="username" class="form-control py-2">

@@ -66,7 +66,7 @@ if(mysqli_num_rows($selData)){
           <form autocomplete="off" id="input-admin">
             <h5 class="border-bottom pb-2">Tambah Admin Baru</h5>
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
+              <label for="username" class="form-label">Username <span class="text-muted" style="font-size:.8em">(wajib huruf besar, kecil, angka)</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-at"></i></span>
                 <input type="search" id="username" class="form-control py-2">
@@ -141,7 +141,7 @@ if(mysqli_num_rows($selToko)){
           <form autocomplete="off" id="edit-admin">
             <h5 class="border-bottom pb-2">Perbarui Data Admin</h5>
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
+              <label for="username" class="form-label">Username <span class="text-muted" style="font-size:.8em">(wajib huruf besar, kecil, angka)</span></label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fas fa-at"></i></span>
                 <input type="search" id="username" class="form-control py-2">
