@@ -84,8 +84,6 @@ while($rowOmset = mysqli_fetch_array($dataOmset)){
     </div>
   </div>
 <?php
-}else{
-  echo '<div class="my-5 text-center text-muted">Data belum tersedia!</div>';
 }
 $dataKeluar = mysqli_query($con, "SELECT * FROM tb_keluar WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND bulan='$getBulan' AND tahun='$getTahun' ORDER BY tanggal ASC");
 if(mysqli_num_rows($dataKeluar)){
