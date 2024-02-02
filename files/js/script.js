@@ -1117,14 +1117,14 @@ if(qs('#harian') != null){
     harga.value = fornum(harga.value);
     if(harga.value.length > 4){
       jumlah.removeAttribute('readonly');
-      if(harga.value != '' && jumlah.value != ''){
-        let laba = (harga.value.replaceAll('.','') * jumlah.value) - (modal.value.replaceAll('.','') * jumlah.value);
-        mores.innerText = 'Laba : '+(fornum(laba.toString()));
-      }else{
-        mores.innerText = 'Modal : '+modal.value;
-      }
     }else{
       jumlah.setAttribute('readonly','');
+    }
+    if(harga.value != '' && jumlah.value != ''){
+      let laba = (harga.value.replaceAll('.','') * jumlah.value) - (modal.value.replaceAll('.','') * jumlah.value);
+      mores.innerText = 'Laba : '+(fornum(laba.toString()));
+    }else{
+      mores.innerText = 'Modal : '+modal.value;
     }
   }
   jumlah.oninput = () => {
