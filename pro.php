@@ -603,13 +603,14 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
 if(isset($_POST['input-data']) && $_POST['input-data'] == true){
   $nama = htmlentities($_POST['nama']);
   $modal = htmlentities(str_replace('.', '',$_POST['modal']));
+  $jual = htmlentities(str_replace('.', '',$_POST['jual']));
   if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM tb_modal WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND nama='$nama'")) === 0){
-    $save = "INSERT INTO tb_modal VALUES(NULL, '$idgrup', '$idtoko', '$nama', '$modal')";
+    $save = "INSERT INTO tb_modal VALUES(NULL, '$idgrup', '$idtoko', '$nama', '$modal', '$jual')";
     if(mysqli_query($con, $save)){
       $data = array(
         'oke' => true,
         'title' => 'Berhasil',
-        'text' => 'Data merek dan modal berhasil ditambahkan.',
+        'text' => 'Data produk berhasil ditambahkan.',
         'icon' => 'success',
         'btn' => 'Oke',
       );
@@ -617,7 +618,7 @@ if(isset($_POST['input-data']) && $_POST['input-data'] == true){
       $data = array(
         'not' => true,
         'title' => 'Gagal',
-        'text' => 'Data merek dan modal gagal ditambahkan!',
+        'text' => 'Data produk gagal ditambahkan!',
         'icon' => 'failed',
         'btn' => 'Tutup',
       );
@@ -636,13 +637,14 @@ if(isset($_POST['edit-data']) && $_POST['edit-data'] == true){
   $id = htmlentities($_POST['id']);
   $nama = htmlentities($_POST['nama']);
   $modal = htmlentities(str_replace('.', '',$_POST['modal']));
+  $jual = htmlentities(str_replace('.', '',$_POST['jual']));
   if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM tb_modal WHERE id_modal<>'$id' AND id_grup='$idgrup' AND id_toko='$idtoko' AND nama='$nama'")) === 0){
-    $save = "UPDATE tb_modal SET nama='$nama', modal='$modal' WHERE id_modal='$id'";
+    $save = "UPDATE tb_modal SET nama='$nama', modal='$modal', jual='$jual' WHERE id_modal='$id'";
     if(mysqli_query($con, $save)){
       $data = array(
         'oke' => true,
         'title' => 'Berhasil',
-        'text' => 'Data merek atau modal berhasil diperbarui.',
+        'text' => 'Data produk berhasil diperbarui.',
         'icon' => 'success',
         'btn' => 'Oke',
       );
@@ -650,7 +652,7 @@ if(isset($_POST['edit-data']) && $_POST['edit-data'] == true){
       $data = array(
         'not' => true,
         'title' => 'Gagal',
-        'text' => 'Data merek atau modal gagal diperbarui!',
+        'text' => 'Data produk gagal diperbarui!',
         'icon' => 'failed',
         'btn' => 'Tutup',
       );
@@ -695,7 +697,13 @@ if(isset($_POST['load-data']) && $_POST['load-data'] == true){
   if(mysqli_num_rows($sel_data)){
     echo '<ul class="list-group">';
     while($row = mysqli_fetch_array($sel_data)){
-      echo '<li id="item" class="list-group-item" data-modal="'.$row['modal'].'">'.$row['nama'].'</li>';
+      $modal = number_format($row['modal'],0,',','.');
+      if($row['jual'] != ''){
+        $jual = number_format($row['jual'],0,',','.');
+      }else{
+        $jual = '';
+      }
+      echo '<li id="item" class="list-group-item" data-modal="'.$modal.'" data-harga="'.$jual.'">'.$row['nama'].'</li>';
     }
     echo '</ul>';
   }else{
@@ -716,7 +724,7 @@ if(isset($_POST['cari-data']) && $_POST['cari-data'] == true){
     if(mysqli_num_rows($sel_data)){
       echo '
           <tr>
-            <td colspan="5" class="text-bg-light text-center py-1">'.mysqli_num_rows($sel_data).' data ditemukan</td>
+            <td colspan="6" class="text-bg-light text-center py-1">'.mysqli_num_rows($sel_data).' data ditemukan</td>
           </tr>
       ';
       $no = 1;
@@ -724,13 +732,19 @@ if(isset($_POST['cari-data']) && $_POST['cari-data'] == true){
         $id_modal = $row['id_modal'];
         $nama = $row['nama'];
         $modal = number_format($row['modal'],0,',','.');
+        if($row['jual'] != ''){
+          $jual = number_format($row['jual'],0,',','.');
+        }else{
+          $jual = '';
+        }
         echo '
           <tr>
             <td valign="middle" class="text-center">'.$no.'</td>
             <td valign="middle">'.$nama.'</td>
             <td valign="middle">'.$modal.'</td>
-            <td style="width:32px" valign="middle" id="editData" class="text-center" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$id_modal.'" data-nama="'.$nama.'" data-modal="'.$modal.'"><i class="fas fa-edit text-success"></i></td>
-            <td style="width:32px" valign="middle" id="hapusData" class="text-center" data-id="'.$id_modal.'" data-baris="'.$no.'" data-nama="'.$nama.'" data-modal="'.$modal.'"><i class="fas fa-trash text-danger"></i></td>
+            <td valign="middle">'.$jual.'</td>
+            <td style="width:32px" valign="middle" id="editData" class="text-center" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$id_modal.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-edit text-success"></i></td>
+            <td style="width:32px" valign="middle" id="hapusData" class="text-center" data-id="'.$id_modal.'" data-baris="'.$no.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-trash text-danger"></i></td>
           </tr>';
         $no++;
       }
@@ -750,13 +764,19 @@ if(isset($_POST['cari-data']) && $_POST['cari-data'] == true){
         $id_modal = $row['id_modal'];
         $nama = $row['nama'];
         $modal = number_format($row['modal'],0,',','.');
+        if($row['jual'] != ''){
+          $jual = number_format($row['jual'],0,',','.');
+        }else{
+          $jual = '';
+        }
         echo '
           <tr>
             <td valign="middle" class="text-center">'.$no.'</td>
             <td valign="middle">'.$nama.'</td>
             <td valign="middle">'.$modal.'</td>
-            <td style="width:32px" valign="middle" id="editData" class="text-center" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$id_modal.'" data-nama="'.$nama.'" data-modal="'.$modal.'"><i class="fas fa-edit text-success"></i></td>
-            <td style="width:32px" valign="middle" id="hapusData" class="text-center" data-id="'.$id_modal.'" data-baris="'.$no.'" data-nama="'.$nama.'" data-modal="'.$modal.'"><i class="fas fa-trash text-danger"></i></td>
+            <td valign="middle">'.$jual.'</td>
+            <td style="width:32px" valign="middle" id="editData" class="text-center" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$id_modal.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-edit text-success"></i></td>
+            <td style="width:32px" valign="middle" id="hapusData" class="text-center" data-id="'.$id_modal.'" data-baris="'.$no.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-trash text-danger"></i></td>
           </tr>';
         $no++;
       }

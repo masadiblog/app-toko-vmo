@@ -7,6 +7,11 @@ if($res_penjualan === 0){
 }
 ?>
 <div class="container px-1">
+  <!--
+  <div class="my-5 text-center">
+    <button type="button" id="butNotf">Click Me!</button>
+  </div>
+  -->
 <?php if(!(isset($_GET['pg']))){ ?>
   <div id="pilihTanggal" class="row my-0 mx-auto mb-2" style="max-width:557px">
     <div class="col-3">
