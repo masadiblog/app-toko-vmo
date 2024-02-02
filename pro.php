@@ -529,24 +529,34 @@ if(isset($_POST['edit-toko']) && $_POST['edit-toko'] == true){
 
 if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
   $id = htmlentities($_POST['dataId']);
-  if(mysqli_query($con, "DELETE FROM tb_catatan WHERE id_grup='$idgrup' AND id_toko='$id'")){
-    if(mysqli_query($con, "DELETE FROM tb_modal WHERE id_grup='$idgrup' AND id_toko='$id'")){
-      if(mysqli_query($con, "DELETE FROM tb_penjualan WHERE id_grup='$idgrup' AND id_toko='$id'")){
-        if(mysqli_query($con, "DELETE FROM tb_pengeluaran WHERE id_grup='$idgrup' AND id_toko='$id'")){
-          if(mysqli_query($con, "DELETE FROM tb_admin WHERE id_grup='$idgrup' AND id_toko='$id'")){
-            if(mysqli_query($con, "DELETE FROM tb_toko WHERE id_toko='$id' AND id_grup='$idgrup'")){
-              $data = array(
-                'oke' => true,
-                'title' => 'Berhasil',
-                'text' => 'Toko berhasil dihapus.',
-                'icon' => 'success',
-                'btn' => 'Oke',
-              );
+  if(mysqli_query($con, "DELETE FROM tb_omha WHERE id_grup='$idgrup' AND id_toko='$idtoko'")){
+    if(mysqli_query($con, "DELETE FROM tb_catatan WHERE id_grup='$idgrup' AND id_toko='$id'")){
+      if(mysqli_query($con, "DELETE FROM tb_modal WHERE id_grup='$idgrup' AND id_toko='$id'")){
+        if(mysqli_query($con, "DELETE FROM tb_penjualan WHERE id_grup='$idgrup' AND id_toko='$id'")){
+          if(mysqli_query($con, "DELETE FROM tb_pengeluaran WHERE id_grup='$idgrup' AND id_toko='$id'")){
+            if(mysqli_query($con, "DELETE FROM tb_admin WHERE id_grup='$idgrup' AND id_toko='$id'")){
+              if(mysqli_query($con, "DELETE FROM tb_toko WHERE id_toko='$id' AND id_grup='$idgrup'")){
+                $data = array(
+                  'oke' => true,
+                  'title' => 'Berhasil',
+                  'text' => 'Toko berhasil dihapus.',
+                  'icon' => 'success',
+                  'btn' => 'Oke',
+                );
+              }else{
+                $data = array(
+                  'not' => true,
+                  'title' => 'Gagal',
+                  'text' => 'Toko gagal dihapus!',
+                  'icon' => 'failed',
+                  'btn' => 'Tutup',
+                );
+              }
             }else{
               $data = array(
                 'not' => true,
                 'title' => 'Gagal',
-                'text' => 'Toko gagal dihapus!',
+                'text' => 'Tabel data admin toko gagal dihapus!',
                 'icon' => 'failed',
                 'btn' => 'Tutup',
               );
@@ -555,7 +565,7 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
             $data = array(
               'not' => true,
               'title' => 'Gagal',
-              'text' => 'Tabel data admin toko gagal dihapus!',
+              'text' => 'Tabel data pengeluaran gagal dihapus!',
               'icon' => 'failed',
               'btn' => 'Tutup',
             );
@@ -564,7 +574,7 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
           $data = array(
             'not' => true,
             'title' => 'Gagal',
-            'text' => 'Tabel data pengeluaran gagal dihapus!',
+            'text' => 'Tabel data penjualan toko gagal dihapus!',
             'icon' => 'failed',
             'btn' => 'Tutup',
           );
@@ -573,7 +583,7 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
         $data = array(
           'not' => true,
           'title' => 'Gagal',
-          'text' => 'Tabel data penjualan toko gagal dihapus!',
+          'text' => 'Tabel data modal toko gagal dihapus!',
           'icon' => 'failed',
           'btn' => 'Tutup',
         );
@@ -582,7 +592,7 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
       $data = array(
         'not' => true,
         'title' => 'Gagal',
-        'text' => 'Tabel data modal toko gagal dihapus!',
+        'text' => 'Tabel data catatan toko gagal dihapus!',
         'icon' => 'failed',
         'btn' => 'Tutup',
       );
@@ -591,7 +601,7 @@ if(isset($_POST['hapus-toko']) && $_POST['hapus-toko'] == true){
     $data = array(
       'not' => true,
       'title' => 'Gagal',
-      'text' => 'Tabel data catatan toko gagal dihapus!',
+      'text' => 'Tabel data omset harian gagal dihapus!',
       'icon' => 'failed',
       'btn' => 'Tutup',
     );
@@ -830,13 +840,15 @@ if(isset($_POST['input-penjualan']) && $_POST['input-penjualan'] == true){
   $save = "INSERT INTO tb_penjualan VALUES(NULL, '$idgrup', '$idtoko', '$nama', '$harga', '$jumlah', '$modal', '$laba', '$tanggal', '$bulan', '$tahun')";
   if(mysqli_query($con, $save)){
     $selModal = mysqli_query($con, "SELECT * FROM tb_modal WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
-    $rowModal = mysqli_fetch_array($selModal);
-    if($rowModal['stok'] != ''){
-      $sisaStok = $rowModal['stok'] - $jumlah;
-    }else{
-      $sisaStok = '';
+    if(mysqli_num_rows($selModal)){
+      $rowModal = mysqli_fetch_array($selModal);
+      if($rowModal['stok'] != ''){
+        $sisaStok = $rowModal['stok'] - $jumlah;
+      }else{
+        $sisaStok = '';
+      }
+      mysqli_query($con, "UPDATE tb_modal SET stok='$sisaStok' WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
     }
-    mysqli_query($con, "UPDATE tb_modal SET stok='$sisaStok' WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
     $data = array(
       'oke' => true,
     );
@@ -929,13 +941,15 @@ if(isset($_POST['hapus-item-penjualan']) && $_POST['hapus-item-penjualan'] == tr
   $save = "DELETE FROM tb_penjualan WHERE id_penjualan='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'";
   if(mysqli_query($con, $save)){
     $selModal = mysqli_query($con, "SELECT * FROM tb_modal WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
-    $rowModal = mysqli_fetch_array($selModal);
-    if($rowModal['stok'] != ''){
-      $sisaStok = $rowModal['stok'] + $jumlah;
-    }else{
-      $sisaStok = '';
+    if(mysqli_num_rows($selModal)){
+      $rowModal = mysqli_fetch_array($selModal);
+      if($rowModal['stok'] != ''){
+        $sisaStok = $rowModal['stok'] + $jumlah;
+      }else{
+        $sisaStok = '';
+      }
+      mysqli_query($con, "UPDATE tb_modal SET stok='$sisaStok' WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
     }
-    mysqli_query($con, "UPDATE tb_modal SET stok='$sisaStok' WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
     $data = array(
       'oke' => true,
       'title' => 'Berhasil',
@@ -969,13 +983,15 @@ if(isset($_POST['edit-item-penjualan']) && $_POST['edit-item-penjualan'] == true
   $save = "UPDATE tb_penjualan SET harga='$harga', jumlah='$jumlah', laba='$laba' WHERE id_penjualan='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'";
   if(mysqli_query($con, $save)){
     $selModal = mysqli_query($con, "SELECT * FROM tb_modal WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
-    $rowModal = mysqli_fetch_array($selModal);
-    if($rowModal['stok'] != ''){
-      $sisaStok = ($data_jumlah + $rowModal['stok']) - $jumlah;
-    }else{
-      $sisaStok = '';
+    if(mysqli_num_rows($selModal)){
+      $rowModal = mysqli_fetch_array($selModal);
+      if($rowModal['stok'] != ''){
+        $sisaStok = ($data_jumlah + $rowModal['stok']) - $jumlah;
+      }else{
+        $sisaStok = '';
+      }
+      mysqli_query($con, "UPDATE tb_modal SET stok='$sisaStok' WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
     }
-    mysqli_query($con, "UPDATE tb_modal SET stok='$sisaStok' WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
     $data = array(
       'oke' => true,
       'title' => 'Berhasil',
