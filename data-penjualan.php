@@ -103,7 +103,7 @@ if(isset($_GET['tanggal']) && isset($_GET['bulan']) && isset($_GET['tahun'])){
     <table class="table mb-0" style="white-space:wrap">
       <thead>
         <tr>
-          <th>No</th>
+          <th class="text-center psl">No</th>
           <th>Merek</th>
           <th>Harga</th>
           <th>Laba</th>
@@ -119,7 +119,7 @@ if(isset($_GET['tanggal']) && isset($_GET['bulan']) && isset($_GET['tahun'])){
       $laba = $rowData['laba'];
 ?>
         <tr>
-          <td valign="middle"><?=$no;?></td>
+          <td valign="middle" class="text-center psl"><?=$no;?></td>
           <td valign="middle"><?=$merek;?></td>
           <td valign="middle"><?=number_format($harga,0,',','.').'×'.$jumlah;?></td>
           <td valign="middle"><?=number_format($laba,0,',','.');?></td>
@@ -214,11 +214,11 @@ while($rowData4 = mysqli_fetch_array($selData4)){
   $selData = mysqli_query($con, "SELECT DISTINCT tanggal FROM tb_penjualan WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND bulan='$bulan' AND tahun='$tahun'");
   if(mysqli_num_rows($selData)){
 ?>
-  <div class="tab-auto" style="max-height:41vh">
+  <div class="tab-auto mb-1" style="max-height:40.5vh">
     <table class="table mb-0" style="white-space:nowrap">
       <thead style="white-space:nowrap">
         <tr>
-          <th>TGL</th>
+          <th class="text-center psl">TGL</th>
           <th>Penjualan</th>
           <th>Keuntungan</th>
           <th>Pengeluaran</th>
@@ -242,7 +242,7 @@ while($rowData4 = mysqli_fetch_array($selData4)){
       $laba_bersih = $keuntungan - $pengeluaran;
 ?>
         <tr>
-          <td valign="middle"><?=$tanggal;?></td>
+          <td valign="middle" class="text-center psl"><?=$tanggal;?></td>
           <td valign="middle"><?=number_format($penjualan,0,',','.');?></td>
           <td valign="middle"><?=number_format($keuntungan,0,',','.');?></td>
           <td valign="middle"><?=number_format($pengeluaran,0,',','.');?></td>
@@ -264,7 +264,7 @@ while($rowData4 = mysqli_fetch_array($selData4)){
     <table class="table mb-0" style="white-space:nowrap">
       <thead>
         <tr>
-          <th>Bulan</th>
+          <th class="psl">Bulan</th>
           <th>Penjualan</th>
           <th>Keuntungan</th>
           <th>Pengeluaran</th>
@@ -286,7 +286,7 @@ while($rowData4 = mysqli_fetch_array($selData4)){
       $bersih = $laba - $keluar;
 ?>
         <tr>
-          <td valign="middle"><?=$bulan;?></td>
+          <td valign="middle" class="psl"><?=$bulan;?></td>
           <td valign="middle"><?=number_format($omset,0,',','.');?></td>
           <td valign="middle"><?=number_format($laba,0,',','.');?></td>
           <td valign="middle"><?=number_format($keluar,0,',','.');?></td>
@@ -357,7 +357,7 @@ $laba_bersih = $keuntungan - $pengeluaran;
   <table class="table table-dark mb-4">
     <tbody>
       <tr>
-        <td colspan="3" class="text-bg-success text-center fw-bold">Total Data Penjualan /<?=mysqli_num_rows($selData);?> Hari</td>
+        <td colspan="3" class="text-bg-success text-center fw-bold" style="border-radius:5px 5px 0 0">Total Data Penjualan /<?=mysqli_num_rows($selData);?> Hari</td>
       </tr>
       <tr>
         <td>Penjualan</td>
@@ -379,10 +379,10 @@ $laba_bersih = $keuntungan - $pengeluaran;
         <td>:</td>
         <td class="text-end"><?=number_format($omset_bersih,0,',','.');?></td>
       </tr>
-      <tr>
-        <td>Laba Bersih</td>
+      <tr class="border-0">
+        <td style="border-radius:0 0 0 5px">Laba Bersih</td>
         <td>:</td>
-        <td class="text-end"><?=number_format($laba_bersih,0,',','.');?></td>
+        <td class="text-end" style="border-radius:0 0 5px 0"><?=number_format($laba_bersih,0,',','.');?></td>
       </tr>
     </tbody>
   </table>
