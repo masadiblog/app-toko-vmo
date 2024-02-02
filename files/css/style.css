@@ -138,6 +138,7 @@ body{
 .tab-auto .table tr{
   border-color: #56ccf8;
 }
+.tab-scroll .table tr th,
 .tab-auto .table tr th{
   background-color: #06abcc;
   font-weight: 500;
@@ -145,10 +146,12 @@ body{
   top: 0;
   z-index: 2;
 }
+.tab-scroll .table tr th.psl,
 .tab-auto .table tr th.psl{
   left: 0;
   z-index: 3;
 }
+.tab-scroll .table tr th.psr,
 .tab-auto .table tr th.psr{
   right: 0;
   z-index: 3;
@@ -158,11 +161,13 @@ body{
   padding: .35rem .5rem;
   font-size: .95em;
 }
+.tab-scroll .table tr td.psl,
 .tab-auto .table tr td.psl{
   position: sticky;
   left: 0;
   z-index: 1;
 }
+.tab-scroll .table tr td.psr,
 .tab-auto .table tr td.psr{
   position: sticky;
   right: 0;
