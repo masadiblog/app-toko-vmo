@@ -1092,8 +1092,13 @@ if(qs('#harian') != null){
               box.classList.remove('active');
               box.innerHTML = '';
               harga.removeAttribute('readonly');
-              jumlah.removeAttribute('readonly');
-              jumlah.focus();
+              if(item[i].getAttribute('data-harga') == ''){
+                harga.focus();
+                jumlah.setAttribute('readonly','');
+              }else{
+                jumlah.removeAttribute('readonly');
+                jumlah.focus();
+              }
               mores.classList.add('active');
               mores.innerText = 'Modal : '+fornum(item[i].getAttribute('data-modal'));
             }
