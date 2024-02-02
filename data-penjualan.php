@@ -9,8 +9,8 @@ if(isset($_GET['tanggal']) && isset($_GET['bulan']) && isset($_GET['tahun'])){
   $dataPenjualan = '';
 }
 ?>
-<div class="container p-1">
-  <h5 class="text-center">Data Penjualan <?=$dataPenjualan;?></h5>
+<div class="container px-1 pb-1">
+  <h1 class="fs-6">Data Penjualan <?=$dataPenjualan;?></h1>
   <div class="mb-2 mx-auto ps-1 pe-2" style="max-width:557px">
     <form autocomplete="off" id="get-data">
       <div class="row">
@@ -99,7 +99,7 @@ if(isset($_GET['tanggal']) && isset($_GET['bulan']) && isset($_GET['tahun'])){
   $selData = mysqli_query($con, "SELECT * FROM tb_penjualan WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND tanggal='$tanggal' AND bulan='$bulan' AND tahun='$tahun'");
   if(mysqli_num_rows($selData)){
 ?>
-  <div class="tab-auto" style="max-height:74vh">
+  <div class="tab-auto" style="max-height:74.5vh">
     <table class="table mb-0" style="white-space:wrap">
       <thead>
         <tr>
@@ -214,7 +214,7 @@ while($rowData4 = mysqli_fetch_array($selData4)){
   $selData = mysqli_query($con, "SELECT DISTINCT tanggal FROM tb_penjualan WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND bulan='$bulan' AND tahun='$tahun'");
   if(mysqli_num_rows($selData)){
 ?>
-  <div class="tab-auto mb-1" style="max-height:40.5vh">
+  <div class="tab-auto mb-1" style="max-height:41vh">
     <table class="table mb-0" style="white-space:nowrap">
       <thead style="white-space:nowrap">
         <tr>

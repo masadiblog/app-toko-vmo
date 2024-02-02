@@ -7,11 +7,6 @@ if($res_penjualan === 0){
 }
 ?>
 <div class="container px-1">
-  <!--
-  <div class="my-5 text-center">
-    <button type="button" id="butNotf">Click Me!</button>
-  </div>
-  -->
 <?php if(!(isset($_GET['pg']))){ ?>
   <div id="pilihTanggal" class="row my-0 mx-auto mb-2" style="max-width:557px">
     <div class="col-3">
@@ -73,7 +68,7 @@ for($th = 0; $th < count($thn); $th++){
     </div>
   </div>
 <?php } if($res_penjualan){ ?>
-  <div class="tab-auto">
+  <div class="tab-auto" style="max-height:42vh">
     <table class="table table-hover mb-0" style="white-space:wrap">
       <thead>
         <tr>
@@ -171,12 +166,12 @@ if($omset > $pengeluaran){
 $omset_bersih = ($omset - $pengeluaran) - ($laba);
 $sisa_laba = $laba - $pengeluaran;
 ?>
-  <table class="table table-dark my-3">
+  <table class="table table-dark mt-1 mb-3">
     <tbody>
       <tr>
-        <td>Data Masuk</td>
+        <td style="border-radius:5px 0 0 0">Data Masuk</td>
         <td>:</td>
-        <td><?=$res_penjualan.' baris';?></td>
+        <td style="border-radius:0 5px 0 0"><?=$res_penjualan.' baris';?></td>
       </tr>
       <tr>
         <td>Penjualan</td>
@@ -203,10 +198,10 @@ $sisa_laba = $laba - $pengeluaran;
         <td>:</td>
         <td><span class="fw-bold py-1 px-2 rounded<?=$textColorSO;?>"><?=number_format($omset_bersih,0,',','.');?></span></td>
       </tr>
-      <tr>
-        <td>Laba Bersih</td>
+      <tr class="border-0">
+        <td style="border-radius:0 0 0 5px">Laba Bersih</td>
         <td>:</td>
-        <td><span class="fw-bold py-1 px-2 rounded<?=$textColorSL;?>"><?=number_format($sisa_laba,0,',','.');?></span></td>
+        <td style="border-radius:0 0 5px 0"><span class="fw-bold py-1 px-2 rounded<?=$textColorSL;?>"><?=number_format($sisa_laba,0,',','.');?></span></td>
       </tr>
     </tbody>
   </table>

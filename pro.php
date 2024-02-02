@@ -604,8 +604,9 @@ if(isset($_POST['input-data']) && $_POST['input-data'] == true){
   $nama = htmlentities($_POST['nama']);
   $modal = htmlentities(str_replace('.', '',$_POST['modal']));
   $jual = htmlentities(str_replace('.', '',$_POST['jual']));
+  $stok = htmlentities(str_replace('.', '',$_POST['stok']));
   if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM tb_modal WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND nama='$nama'")) === 0){
-    $save = "INSERT INTO tb_modal VALUES(NULL, '$idgrup', '$idtoko', '$nama', '$modal', '$jual')";
+    $save = "INSERT INTO tb_modal VALUES(NULL, '$idgrup', '$idtoko', '$nama', '$modal', '$jual', '$stok')";
     if(mysqli_query($con, $save)){
       $data = array(
         'oke' => true,
@@ -638,8 +639,9 @@ if(isset($_POST['edit-data']) && $_POST['edit-data'] == true){
   $nama = htmlentities($_POST['nama']);
   $modal = htmlentities(str_replace('.', '',$_POST['modal']));
   $jual = htmlentities(str_replace('.', '',$_POST['jual']));
+  $stok = htmlentities(str_replace('.', '',$_POST['stok']));
   if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM tb_modal WHERE id_modal<>'$id' AND id_grup='$idgrup' AND id_toko='$idtoko' AND nama='$nama'")) === 0){
-    $save = "UPDATE tb_modal SET nama='$nama', modal='$modal', jual='$jual' WHERE id_modal='$id'";
+    $save = "UPDATE tb_modal SET nama='$nama', modal='$modal', jual='$jual', stok='$stok' WHERE id_modal='$id'";
     if(mysqli_query($con, $save)){
       $data = array(
         'oke' => true,
@@ -674,7 +676,7 @@ if(isset($_POST['hapus-data']) && $_POST['hapus-data'] == true){
     $data = array(
       'oke' => true,
       'title' => 'Dihapus',
-      'text' => 'Data merek dan modal berhasil dihapus.',
+      'text' => 'Data produk berhasil dihapus.',
       'icon' => 'success',
       'btn' => 'Oke',
     );
@@ -682,7 +684,7 @@ if(isset($_POST['hapus-data']) && $_POST['hapus-data'] == true){
     $data = array(
       'not' => true,
       'title' => 'Gagal',
-      'text' => 'Data merek dan modal gagal dihapus!',
+      'text' => 'Data produk gagal dihapus!',
       'icon' => 'failed',
       'btn' => 'Tutup',
     );
@@ -724,7 +726,7 @@ if(isset($_POST['cari-data']) && $_POST['cari-data'] == true){
     if(mysqli_num_rows($sel_data)){
       echo '
           <tr>
-            <td colspan="6" class="text-bg-light text-center py-1">'.mysqli_num_rows($sel_data).' data ditemukan</td>
+            <td colspan="6" class="text-bg-secondary text-center py-1">'.mysqli_num_rows($sel_data).' data ditemukan</td>
           </tr>
       ';
       $no = 1;
@@ -737,26 +739,33 @@ if(isset($_POST['cari-data']) && $_POST['cari-data'] == true){
         }else{
           $jual = '';
         }
+        if($row['stok'] != ''){
+          $stok = number_format($row['stok'],0,',','.');
+        }else{
+          $stok = '0';
+        }
         echo '
           <tr>
-            <td valign="middle" class="text-center">'.$no.'</td>
+            <td valign="middle" class="text-center psl">'.$no.'</td>
             <td valign="middle">'.$nama.'</td>
             <td valign="middle">'.$modal.'</td>
             <td valign="middle">'.$jual.'</td>
-            <td style="width:32px" valign="middle" id="editData" class="text-center" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$id_modal.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-edit text-success"></i></td>
-            <td style="width:32px" valign="middle" id="hapusData" class="text-center" data-id="'.$id_modal.'" data-baris="'.$no.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-trash text-danger"></i></td>
+            <td valign="middle">'.$stok.'</td>
+            <td valign="middle" class="text-center psr">
+              &nbsp;<span id="editData" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$id_modal.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'" data-stok="'.$stok.'"><i class="fas fa-edit text-success"></i></span>&nbsp;<span id="hapusData" data-id="'.$id_modal.'" data-baris="'.$no.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-trash text-danger"></i></span>
+            </td>
           </tr>';
         $no++;
       }
     }else{
-      echo '<tr><td colspan="5" class="text-center text-muted">Data tidak ditemukan!</td></tr>';
+      echo '<tr><td colspan="6" class="text-center text-muted">Data tidak ditemukan!</td></tr>';
     }
   }else{
     $sel_data = mysqli_query($con, "SELECT * FROM tb_modal WHERE id_grup='$idgrup' AND id_toko='$idtoko' ORDER BY id_modal DESC");
     if(mysqli_num_rows($sel_data)){
       echo '
           <tr>
-            <td colspan="5" class="text-bg-light text-center py-1">'.mysqli_num_rows($sel_data).' data tersimpan</td>
+            <td colspan="6" class="text-bg-secondary text-center py-1">'.mysqli_num_rows($sel_data).' data tersimpan</td>
           </tr>
       ';
       $no = 1;
@@ -769,19 +778,26 @@ if(isset($_POST['cari-data']) && $_POST['cari-data'] == true){
         }else{
           $jual = '';
         }
+        if($row['stok'] != ''){
+          $stok = number_format($row['stok'],0,',','.');
+        }else{
+          $stok = '0';
+        }
         echo '
           <tr>
-            <td valign="middle" class="text-center">'.$no.'</td>
+            <td valign="middle" class="text-center psl">'.$no.'</td>
             <td valign="middle">'.$nama.'</td>
             <td valign="middle">'.$modal.'</td>
             <td valign="middle">'.$jual.'</td>
-            <td style="width:32px" valign="middle" id="editData" class="text-center" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$id_modal.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-edit text-success"></i></td>
-            <td style="width:32px" valign="middle" id="hapusData" class="text-center" data-id="'.$id_modal.'" data-baris="'.$no.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-trash text-danger"></i></td>
+            <td valign="middle">'.$stok.'</td>
+            <td valign="middle" class="text-center psr">
+              &nbsp;<span id="editData" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$id_modal.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'" data-stok="'.$stok.'"><i class="fas fa-edit text-success"></i></span>&nbsp;<span id="hapusData" data-id="'.$id_modal.'" data-baris="'.$no.'" data-nama="'.$nama.'" data-modal="'.$modal.'" data-jual="'.$jual.'"><i class="fas fa-trash text-danger"></i></span>
+            </td>
           </tr>';
         $no++;
       }
     }else{
-      echo '<tr><td colspan="5" class="text-center text-danger">Belum ada data!</td></tr>';
+      echo '<tr><td colspan="6" class="text-center text-danger">Belum ada data!</td></tr>';
     }
   }
   exit;
@@ -813,6 +829,14 @@ if(isset($_POST['input-penjualan']) && $_POST['input-penjualan'] == true){
   }
   $save = "INSERT INTO tb_penjualan VALUES(NULL, '$idgrup', '$idtoko', '$nama', '$harga', '$jumlah', '$modal', '$laba', '$tanggal', '$bulan', '$tahun')";
   if(mysqli_query($con, $save)){
+    $selModal = mysqli_query($con, "SELECT * FROM tb_modal WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+    $rowModal = mysqli_fetch_array($selModal);
+    if($rowModal['stok'] != ''){
+      $sisaStok = $rowModal['stok'] - $jumlah;
+    }else{
+      $sisaStok = '';
+    }
+    mysqli_query($con, "UPDATE tb_modal SET stok='$sisaStok' WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
     $data = array(
       'oke' => true,
     );
@@ -898,8 +922,20 @@ if(isset($_POST['hapus-pengeluaran']) && $_POST['hapus-pengeluaran'] == true){
 
 if(isset($_POST['hapus-item-penjualan']) && $_POST['hapus-item-penjualan'] == true){
   $id = htmlentities($_POST['id']);
+  $selData1 = mysqli_query($con, "SELECT * FROM tb_penjualan WHERE id_penjualan='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+  $rowData1 = mysqli_fetch_array($selData1);
+  $nama = $rowData1['nama'];
+  $jumlah = $rowData1['jumlah'];
   $save = "DELETE FROM tb_penjualan WHERE id_penjualan='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'";
   if(mysqli_query($con, $save)){
+    $selModal = mysqli_query($con, "SELECT * FROM tb_modal WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+    $rowModal = mysqli_fetch_array($selModal);
+    if($rowModal['stok'] != ''){
+      $sisaStok = $rowModal['stok'] + $jumlah;
+    }else{
+      $sisaStok = '';
+    }
+    mysqli_query($con, "UPDATE tb_modal SET stok='$sisaStok' WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
     $data = array(
       'oke' => true,
       'title' => 'Berhasil',
@@ -922,12 +958,24 @@ if(isset($_POST['hapus-item-penjualan']) && $_POST['hapus-item-penjualan'] == tr
 
 if(isset($_POST['edit-item-penjualan']) && $_POST['edit-item-penjualan'] == true){
   $id = htmlentities($_POST['id']);
+  $selData1 = mysqli_query($con, "SELECT * FROM tb_penjualan WHERE id_penjualan='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+  $rowData1 = mysqli_fetch_array($selData1);
+  $nama = $rowData1['nama'];
+  $data_jumlah = $rowData1['jumlah'];
   $harga = htmlentities(str_replace('.', '',$_POST['harga']));
   $jumlah = htmlentities(str_replace(',', '.',str_replace('.', '',$_POST['jumlah'])));
   $modal = htmlentities(str_replace('.', '',$_POST['modal']));
   $laba = ($harga * $jumlah) - ($modal * $jumlah);
   $save = "UPDATE tb_penjualan SET harga='$harga', jumlah='$jumlah', laba='$laba' WHERE id_penjualan='$id' AND id_grup='$idgrup' AND id_toko='$idtoko'";
   if(mysqli_query($con, $save)){
+    $selModal = mysqli_query($con, "SELECT * FROM tb_modal WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+    $rowModal = mysqli_fetch_array($selModal);
+    if($rowModal['stok'] != ''){
+      $sisaStok = ($data_jumlah + $rowModal['stok']) - $jumlah;
+    }else{
+      $sisaStok = '';
+    }
+    mysqli_query($con, "UPDATE tb_modal SET stok='$sisaStok' WHERE nama='$nama' AND id_grup='$idgrup' AND id_toko='$idtoko'");
     $data = array(
       'oke' => true,
       'title' => 'Berhasil',
