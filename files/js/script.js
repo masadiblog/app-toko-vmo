@@ -1188,12 +1188,16 @@ if(qs('#harian') != null){
 if(qs('#input-data') != null){
   const form = qs('#input-data'),
   nama = qs('#input-data #nama'),
+  stok = qs('#input-data #stok'),
   modal = qs('#input-data #modal'),
   jual = qs('#input-data #jual'),
   ssha = qs('#input-data #ssha'),
   err = qsa('#input-data .err');
   nama.oninput = () => {
     nama.value = ucfirst(nama.value);
+  }
+  stok.oninput = () => {
+    stok.value = fornum(stok.value);
   }
   modal.oninput = () => {
     modal.value = fornum(modal.value);
@@ -1239,6 +1243,9 @@ if(qs('#input-data') != null){
       modal.focus();
       err[1].innerText = 'Harga modal!';
       return false;
+    }else if(stok.value.length > 5){
+      stok.focus();
+      return false;
     }else if(modal.value.length > 10){
       modal.focus();
       err[1].innerText = 'Maksimal 10 angka!';
@@ -1256,6 +1263,7 @@ if(qs('#input-data') != null){
       data.append('nama', nama.value);
       data.append('modal', modal.value);
       data.append('jual', jual.value);
+      data.append('stok', stok.value);
       data.append('input-data', true);
       const pro = new XMLHttpRequest();
       pro.open('post', 'pro.php', true);
@@ -1323,27 +1331,33 @@ if(qs('#cari-data') != null){
             dataNama = btnEdit[i].getAttribute('data-nama'),
             dataModal = btnEdit[i].getAttribute('data-modal'),
             dataJual = btnEdit[i].getAttribute('data-jual'),
+            dataStok = btnEdit[i].getAttribute('data-stok'),
             form = qs('#edit-data'),
             nama = qs('#edit-data #nama'),
+            stok = qs('#edit-data #stok'),
             modal = qs('#edit-data #modal'),
             jual = qs('#edit-data #jual'),
             ssha = qs('#edit-data #ssha2'),
             err = qsa('#edit-data .err');
             btnBatal = qs('#batalEdit');
+            if(dataStok == 0){
+              dataStok = '';
+            }
             nama.value = dataNama;
             modal.value = dataModal;
             jual.value = dataJual;
+            stok.value = dataStok;
             if(jual.value == ''){
               ssha.innerText = '';
             }else{
               ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
               ssha.innerText = fornum(ssha.innerText);
-              nama.oninput = () => {
-                nama.value = ucfirst(nama.value);
-              }
             }
             nama.oninput = () => {
               nama.value = ucfirst(nama.value);
+            }
+            stok.oninput = () => {
+              stok.value = fornum(stok.value);
             }
             modal.oninput = () => {
               modal.value = fornum(modal.value);
@@ -1384,6 +1398,9 @@ if(qs('#cari-data') != null){
                 nama.focus();
                 err[0].innerText = 'Maksimal 30 karakter!';
                 return false;
+              }else if(stok.value.length > 5){
+                stok.focus();
+                return false();
               }else if(modal.value == ''){
                 modal.focus();
                 err[1].innerText = 'Harga modal!';
@@ -1406,6 +1423,7 @@ if(qs('#cari-data') != null){
                 data.append('nama', nama.value);
                 data.append('modal', modal.value);
                 data.append('jual', jual.value);
+                data.append('stok', stok.value);
                 data.append('edit-data', true);
                 const pro = new XMLHttpRequest();
                 pro.open('post', 'pro.php', true);
@@ -1521,24 +1539,33 @@ if(qs('#editData') != null){
       dataNama = btnEdit[i].getAttribute('data-nama'),
       dataModal = btnEdit[i].getAttribute('data-modal'),
       dataJual = btnEdit[i].getAttribute('data-jual'),
+      dataStok = btnEdit[i].getAttribute('data-stok'),
       form = qs('#edit-data'),
       nama = qs('#edit-data #nama'),
+      stok = qs('#edit-data #stok'),
       modal = qs('#edit-data #modal'),
       jual = qs('#edit-data #jual'),
       ssha = qs('#edit-data #ssha2'),
       err = qsa('#edit-data .err');
       btnBatal = qs('#batalEdit');
+      if(dataStok == 0){
+        dataStok = '';
+      }
       nama.value = dataNama;
       modal.value = dataModal;
       jual.value = dataJual;
+      stok.value = dataStok;
       if(jual.value == ''){
         ssha.innerText = '';
       }else{
         ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
         ssha.innerText = fornum(ssha.innerText);
-        nama.oninput = () => {
-          nama.value = ucfirst(nama.value);
-        }
+      }
+      nama.oninput = () => {
+        nama.value = ucfirst(nama.value);
+      }
+      stok.oninput = () => {
+        stok.value = fornum(stok.value);
       }
       modal.oninput = () => {
         modal.value = fornum(modal.value);
@@ -1579,6 +1606,9 @@ if(qs('#editData') != null){
           nama.focus();
           err[0].innerText = 'Maksimal 30 karakter!';
           return false;
+        }else if(stok.value.length > 5){
+          stok.focus();
+          return false;
         }else if(modal.value == ''){
           modal.focus();
           err[1].innerText = 'Harga modal!';
@@ -1601,6 +1631,7 @@ if(qs('#editData') != null){
           data.append('nama', nama.value);
           data.append('modal', modal.value);
           data.append('jual', jual.value);
+          data.append('stok', stok.value);
           data.append('edit-data', true);
           const pro = new XMLHttpRequest();
           pro.open('post', 'pro.php', true);
@@ -1984,7 +2015,7 @@ if(qs('#btn-edit') != null){
               const res = JSON.parse(this.responseText);
               ani_hide();
               if(res.oke === true){
-                modal_hide(qsa('.modal')[1]);
+                modal_hide(qs('.modal'));
                 alertBox({
                   title: res.title,
                   text: res.text,
