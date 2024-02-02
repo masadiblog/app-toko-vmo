@@ -145,13 +145,23 @@ body{
   top: 0;
   z-index: 2;
 }
+.tab-auto .table tr th.psl{
+  left: 0;
+  z-index: 3;
+}
 .tab-auto .table tr th.psr{
   right: 0;
+  z-index: 3;
 }
 .tab-auto .table tr td{
   background-color: #0dcaf0;
   padding: .35rem .5rem;
   font-size: .95em;
+}
+.tab-auto .table tr td.psl{
+  position: sticky;
+  left: 0;
+  z-index: 1;
 }
 .tab-auto .table tr td.psr{
   position: sticky;
@@ -401,7 +411,7 @@ body{
   }
 }
 #input-data.input-data{
-  margin-top: 1rem;
+  margin-top: .5rem;
   margin-bottom: 1rem;
   transition: all .25s linear;
 }
