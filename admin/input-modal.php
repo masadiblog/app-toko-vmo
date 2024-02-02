@@ -1,4 +1,4 @@
-<div class="container px-1 pb-1">
+<div class="container px-2 pb-2">
   <h1 class="fs-6 mb-0">Input Data Produk</h1>
   <form autocomplete="off" id="input-data" class="bg-info input-data border border-info shadow rounded px-1 pt-0 pb-1">
     <div class="row mb-2">
@@ -34,8 +34,8 @@
   $res_modal = mysqli_num_rows($sel_modal);
   if($res_modal > 0){
   ?>
-  <div class="mt-2 mb-3">
-    <div class="input-group shadow">
+  <div class="mt-2 mb-3 mx-3">
+    <div class="input-group shadow rounded">
       <input type="search" placeholder="Masukkan Nama/Merek" id="cari-data" class="form-control">
       <span class="input-group-text">
         <a href="<?=$base_url;?>" class="text-decoration-none" style="font-size:.8em">
