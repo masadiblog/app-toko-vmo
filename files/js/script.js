@@ -1088,10 +1088,12 @@ if(qs('#harian') != null){
             item[i].onclick = () => {
               nama.value = item[i].innerText;
               modal.value = item[i].getAttribute('data-modal');
+              harga.value = item[i].getAttribute('data-harga');
               box.classList.remove('active');
               box.innerHTML = '';
               harga.removeAttribute('readonly');
-              harga.focus();
+              jumlah.removeAttribute('readonly');
+              jumlah.focus();
               mores.classList.add('active');
               mores.innerText = 'Modal : '+fornum(item[i].getAttribute('data-modal'));
             }
@@ -1171,12 +1173,37 @@ if(qs('#input-data') != null){
   const form = qs('#input-data'),
   nama = qs('#input-data #nama'),
   modal = qs('#input-data #modal'),
+  jual = qs('#input-data #jual'),
+  ssha = qs('#input-data #ssha'),
   err = qsa('#input-data .err');
   nama.oninput = () => {
     nama.value = ucfirst(nama.value);
   }
   modal.oninput = () => {
     modal.value = fornum(modal.value);
+    if(modal.value != '' && jual.value != ''){
+      if(modal.value != '' && modal.value.length == jual.value.length-1){
+        ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
+        ssha.innerText = fornum(ssha.innerText);
+      }else{
+        ssha.innerText = '';
+      }
+    }else{
+      ssha.innerText = '';
+    }
+  }
+  jual.oninput = () => {
+    jual.value = fornum(jual.value);
+    if(modal.value != ''){
+      if(jual.value != '' && jual.value.length == modal.value.length || jual.value.length > modal.value.length){
+        ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
+        ssha.innerText = fornum(ssha.innerText);
+      }else{
+        ssha.innerText = '';
+      }
+    }else{
+      ssha.innerText = '';
+    }
   }
   form.onsubmit = (e) => {
     e.preventDefault();
@@ -1186,7 +1213,7 @@ if(qs('#input-data') != null){
     }
     if(nama.value == ''){
       nama.focus();
-      err[0].innerText = 'Masukkan merek!';
+      err[0].innerText = 'Masukkan nama atau merek produk!';
       return false;
     }else if(nama.value.length > 30){
       nama.focus();
@@ -1194,16 +1221,25 @@ if(qs('#input-data') != null){
       return false;
     }else if(modal.value == ''){
       modal.focus();
-      err[1].innerText = 'Masukkan modal!';
+      err[1].innerText = 'Harga modal!';
       return false;
-    }else if(modal.value.length > 7){
+    }else if(modal.value.length > 10){
       modal.focus();
-      err[1].innerText = 'Maksimal 7 angka!';
+      err[1].innerText = 'Maksimal 10 angka!';
+      return false;
+    }else if(jual.value == ''){
+      jual.focus();
+      err[2].innerText = 'Harga jual!';
+      return false;
+    }else if(jual.value.length > 10){
+      jual.focus();
+      err[2].innerText = 'Maksimal 10 angka!';
       return false;
     }else{
       const data = new FormData();
       data.append('nama', nama.value);
       data.append('modal', modal.value);
+      data.append('jual', jual.value);
       data.append('input-data', true);
       const pro = new XMLHttpRequest();
       pro.open('post', 'pro.php', true);
@@ -1270,18 +1306,54 @@ if(qs('#cari-data') != null){
             const dataId = btnEdit[i].getAttribute('data-id'); 
             dataNama = btnEdit[i].getAttribute('data-nama'),
             dataModal = btnEdit[i].getAttribute('data-modal'),
+            dataJual = btnEdit[i].getAttribute('data-jual'),
             form = qs('#edit-data'),
             nama = qs('#edit-data #nama'),
             modal = qs('#edit-data #modal'),
+            jual = qs('#edit-data #jual'),
+            ssha = qs('#edit-data #ssha2'),
             err = qsa('#edit-data .err');
             btnBatal = qs('#batalEdit');
             nama.value = dataNama;
             modal.value = dataModal;
+            jual.value = dataJual;
+            if(jual.value == ''){
+              ssha.innerText = '';
+            }else{
+              ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
+              ssha.innerText = fornum(ssha.innerText);
+              nama.oninput = () => {
+                nama.value = ucfirst(nama.value);
+              }
+            }
             nama.oninput = () => {
               nama.value = ucfirst(nama.value);
             }
             modal.oninput = () => {
               modal.value = fornum(modal.value);
+              if(modal.value != '' && jual.value != ''){
+                if(modal.value != '' && modal.value.length == jual.value.length-1){
+                  ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
+                  ssha.innerText = fornum(ssha.innerText);
+                }else{
+                  ssha.innerText = '';
+                }
+              }else{
+                ssha.innerText = '';
+              }
+            }
+            jual.oninput = () => {
+              jual.value = fornum(jual.value);
+              if(modal.value != ''){
+                if(jual.value != '' && jual.value.length == modal.value.length || jual.value.length > modal.value.length){
+                  ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
+                  ssha.innerText = fornum(ssha.innerText);
+                }else{
+                  ssha.innerText = '';
+                }
+              }else{
+                ssha.innerText = '';
+              }
             }
             form.onsubmit = (e) => {
               e.preventDefault();
@@ -1298,17 +1370,26 @@ if(qs('#cari-data') != null){
                 return false;
               }else if(modal.value == ''){
                 modal.focus();
-                err[1].innerText = 'Tidak boleh kosong!';
+                err[1].innerText = 'Harga modal!';
                 return false;
-              }else if(modal.value.length > 7){
+              }else if(modal.value.length > 10){
                 modal.focus();
-                err[1].innerText = 'Maksimal 7 angka!';
+                err[1].innerText = 'Maksimal 10 angka!';
+                return false;
+              }else if(jual.value == ''){
+                jual.focus();
+                err[2].innerText = 'Harga jual!';
+                return false;
+              }else if(jual.value.length > 10){
+                jual.focus();
+                err[2].innerText = 'Maksimal 10 angka!';
                 return false;
               }else{
                 const data = new FormData();
                 data.append('id', dataId);
                 data.append('nama', nama.value);
                 data.append('modal', modal.value);
+                data.append('jual', jual.value);
                 data.append('edit-data', true);
                 const pro = new XMLHttpRequest();
                 pro.open('post', 'pro.php', true);
@@ -1363,7 +1444,8 @@ if(qs('#cari-data') != null){
             data_baris = btnHapus[i].getAttribute('data-baris'),
             data_nama = btnHapus[i].getAttribute('data-nama'),
             data_modal = btnHapus[i].getAttribute('data-modal'),
-            rtext = 'Hapus data baris ke <b>'+data_baris+'</b>, <b>'+data_nama+'</b>, <b>'+data_modal+'</b>';
+            data_jual = btnHapus[i].getAttribute('data-jual'),
+            rtext = 'Hapus data baris ke <b>'+data_baris+'</b>, <b>'+data_nama+'</b>, <b>'+data_modal+'</b>, <b>'+data_jual+'</b>';
             alertBox({
               title: 'Konfirmasi',
               text: rtext,
@@ -1422,18 +1504,51 @@ if(qs('#editData') != null){
       const dataId = btnEdit[i].getAttribute('data-id'); 
       dataNama = btnEdit[i].getAttribute('data-nama'),
       dataModal = btnEdit[i].getAttribute('data-modal'),
+      dataJual = btnEdit[i].getAttribute('data-jual'),
       form = qs('#edit-data'),
       nama = qs('#edit-data #nama'),
       modal = qs('#edit-data #modal'),
+      jual = qs('#edit-data #jual'),
+      ssha = qs('#edit-data #ssha2'),
       err = qsa('#edit-data .err');
       btnBatal = qs('#batalEdit');
       nama.value = dataNama;
       modal.value = dataModal;
-      nama.oninput = () => {
-        nama.value = ucfirst(nama.value);
+      jual.value = dataJual;
+      if(jual.value == ''){
+        ssha.innerText = '';
+      }else{
+        ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
+        ssha.innerText = fornum(ssha.innerText);
+        nama.oninput = () => {
+          nama.value = ucfirst(nama.value);
+        }
       }
       modal.oninput = () => {
-        modal.value = fornum(modal.value)
+        modal.value = fornum(modal.value);
+        if(modal.value != '' && jual.value != ''){
+          if(modal.value != '' && modal.value.length == jual.value.length-1){
+            ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
+            ssha.innerText = fornum(ssha.innerText);
+          }else{
+            ssha.innerText = '';
+          }
+        }else{
+          ssha.innerText = '';
+        }
+      }
+      jual.oninput = () => {
+        jual.value = fornum(jual.value);
+        if(modal.value != ''){
+          if(jual.value != '' && jual.value.length == modal.value.length || jual.value.length > modal.value.length){
+            ssha.innerText = jual.value.replaceAll('.','') - modal.value.replaceAll('.','');
+            ssha.innerText = fornum(ssha.innerText);
+          }else{
+            ssha.innerText = '';
+          }
+        }else{
+          ssha.innerText = '';
+        }
       }
       form.onsubmit = (e) => {
         e.preventDefault();
@@ -1450,17 +1565,26 @@ if(qs('#editData') != null){
           return false;
         }else if(modal.value == ''){
           modal.focus();
-          err[1].innerText = 'Tidak boleh kosong!';
+          err[1].innerText = 'Harga modal!';
           return false;
-        }else if(modal.value.length > 7){
+        }else if(modal.value.length > 10){
           modal.focus();
-          err[1].innerText = 'Maksimal 7 angka!';
+          err[1].innerText = 'Maksimal 10 angka!';
+          return false;
+        }else if(jual.value == ''){
+          jual.focus();
+          err[2].innerText = 'Harga jual!';
+          return false;
+        }else if(jual.value.length > 10){
+          jual.focus();
+          err[2].innerText = 'Maksimal 10 angka!';
           return false;
         }else{
           const data = new FormData();
           data.append('id', dataId);
           data.append('nama', nama.value);
           data.append('modal', modal.value);
+          data.append('jual', jual.value);
           data.append('edit-data', true);
           const pro = new XMLHttpRequest();
           pro.open('post', 'pro.php', true);
@@ -1518,7 +1642,8 @@ if(qs('#hapusData') != null){
       data_baris = btnHapus[i].getAttribute('data-baris'),
       data_nama = btnHapus[i].getAttribute('data-nama'),
       data_modal = btnHapus[i].getAttribute('data-modal'),
-      rtext = 'Hapus data baris ke <b>'+data_baris+'</b>, <b>'+data_nama+'</b>, <b>'+data_modal+'</b>';
+      data_jual = btnHapus[i].getAttribute('data-jual'),
+      rtext = 'Hapus data baris ke <b>'+data_baris+'</b>, <b>'+data_nama+'</b>, <b>'+data_modal+'</b>, <b>'+data_jual+'</b>';
       alertBox({
         title: 'Konfirmasi',
         text: rtext,
