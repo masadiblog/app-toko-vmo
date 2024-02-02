@@ -32,6 +32,7 @@ id_toko INT(11) NOT NULL,
 nama VARCHAR(30) NOT NULL,
 modal VARCHAR(10) NOT NULL,
 jual VARCHAR(10) NOT NULL,
+stok VARCHAR(5) NOT NULL,
 PRIMARY KEY(id_modal)
 );
 
