@@ -9,7 +9,7 @@ if(isset($_GET['tanggal']) && isset($_GET['bulan']) && isset($_GET['tahun'])){
   $dataPenjualan = '';
 }
 ?>
-<div class="container px-1 pb-1">
+<div class="container px-2 pb-2">
   <h1 class="fs-6">Data Penjualan <?=$dataPenjualan;?></h1>
   <div class="mb-2 mx-auto ps-1 pe-2" style="max-width:557px">
     <form autocomplete="off" id="get-data">
