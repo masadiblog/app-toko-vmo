@@ -1,4 +1,21 @@
 <?php
+function listBulan($bulan){
+  switch($bulan){
+    case 'Januari': $bulan = '01'; break;
+    case 'Februari': $bulan = '02'; break;
+    case 'Maret': $bulan = '03'; break;
+    case 'April': $bulan = '04'; break;
+    case 'Mei': $bulan = '05'; break;
+    case 'Juni': $bulan = '06'; break;
+    case 'Juli': $bulan = '07'; break;
+    case 'Agustus': $bulan = '08'; break;
+    case 'September': $bulan = '09'; break;
+    case 'Oktober': $bulan = '10'; break;
+    case 'November': $bulan = '11'; break;
+    case 'Desember': $bulan = '12'; break;
+  }
+  return $bulan;
+}
 if(isset($_GET['bulan']) && $_GET['bulan'] != ''){
   $getBulan = ucwords($_GET['bulan']);
 }else{
@@ -40,7 +57,7 @@ $omsetBersih = ($totalOmset - $totalKeluar) + ($totalMasuk);
     <table class="table mb-0">
       <thead>
         <tr>
-          <th class="text-center">TGL</th>
+          <th class="text-center" style="width:50px">TGL</th>
           <th>Omset</th>
           <th colspan="2" class="text-center"><i class="fas fa-angle-down"></i></th>
         </tr>
@@ -49,20 +66,7 @@ $omsetBersih = ($totalOmset - $totalKeluar) + ($totalMasuk);
 <?php
 while($rowOmset = mysqli_fetch_array($dataOmset)){
   $bulan = $rowOmset['bulan'];
-  switch($bulan){
-    case 'Januari': $bulan = '01'; break;
-    case 'Februari': $bulan = '02'; break;
-    case 'Maret': $bulan = '03'; break;
-    case 'April': $bulan = '04'; break;
-    case 'Mei': $bulan = '05'; break;
-    case 'Juni': $bulan = '06'; break;
-    case 'Juli': $bulan = '07'; break;
-    case 'Agustus': $bulan = '08'; break;
-    case 'September': $bulan = '09'; break;
-    case 'Oktober': $bulan = '10'; break;
-    case 'November': $bulan = '11'; break;
-    case 'Desember': $bulan = '12'; break;
-  }
+  listBulan($bulan);
   $dataTanggal = $rowOmset['tahun'].'-'.$bulan.'-'.$rowOmset['tanggal'];
 ?>
         <tr>
@@ -98,7 +102,7 @@ if(mysqli_num_rows($dataKeluar)){
     <table class="table mb-0">
       <thead>
         <tr>
-          <th class="text-center">TGL</th>
+          <th class="text-center" style="width:50px">TGL</th>
           <th>Nama</th>
           <th>Keluar</th>
           <th colspan="3" class="text-center"><i class="fas fa-angle-down"></i></th>
@@ -133,7 +137,7 @@ if(mysqli_num_rows($dataMasuk)){
     <table class="table mb-0">
       <thead>
         <tr>
-          <th class="text-center">TGL</th>
+          <th class="text-center" style="width:50px">TGL</th>
           <th>Nama</th>
           <th>Masuk</th>
           <th colspan="3" class="text-center"><i class="fas fa-angle-down"></i></th>
@@ -161,7 +165,19 @@ if(mysqli_num_rows($dataMasuk)){
   </div>
 <?php } ?>
 </div>
-
+<?php
+$omsetHariIni = mysqli_query($con, "SELECT * FROM tb_penjualan WHERE tanggal='$date_now' AND bulan='$month_now' AND tahun='$year_now' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+if(mysqli_num_rows($omsetHariIni)){
+  $row = mysqli_fetch_array($omsetHariIni);
+  $valOmset = number_format($row['harga'],0,',','.');
+  $tanggal = $row['tanggal'];
+  $bulan = listBulan($row['bulan']);
+  $tahun = $row['tahun'];
+  $valTanggal = $tahun.'-'.$bulan.'-'.$tanggal;
+}else{
+  $valOmset = $valTanggal = '';
+}
+?>
 <div class="modal fade" id="omsetModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -170,12 +186,12 @@ if(mysqli_num_rows($dataMasuk)){
             <h5 class="border-bottom pb-2">Input Omset</h5>
             <div class="mb-3">
               <label for="omset" class="form-label">Omset</label>
-              <input type="search" id="omset" class="form-control">
+              <input type="search" id="omset" class="form-control" value="<?=$valOmset;?>">
               <div class="err"></div>
             </div>
             <div class="mb-3">
               <label for="tanggal" class="form-label">Tanggal</label>
-              <input type="date" id="tanggal" class="form-control">
+              <input type="date" id="tanggal" class="form-control" value="<?=$valTanggal;?>">
               <div class="err"></div>
             </div>
             <div class="text-end">
