@@ -65,8 +65,7 @@ $omsetBersih = ($totalOmset - $totalKeluar) + ($totalMasuk);
       <tbody>
 <?php
 while($rowOmset = mysqli_fetch_array($dataOmset)){
-  $bulan = $rowOmset['bulan'];
-  listBulan($bulan);
+  $bulan = listBulan($rowOmset['bulan']);
   $dataTanggal = $rowOmset['tahun'].'-'.$bulan.'-'.$rowOmset['tanggal'];
 ?>
         <tr>
@@ -111,12 +110,12 @@ if(mysqli_num_rows($dataKeluar)){
       <tbody>
 <?php while($rowKeluar = mysqli_fetch_array($dataKeluar)){ ?>
         <tr>
-          <td class="text-center"><?=$rowKeluar['tanggal'];?></td>
-          <td><?=$rowKeluar['nama'];?></td>
-          <td><?=number_format($rowKeluar['jumlah'],0,',','.');?></td>
-          <td id="btn_detail_kemas" data-id="<?=$rowKeluar['id_keluar'];?>" data-push="detail-keluar" style="width:30px" class="text-center"><i class="fas fa-eye text-primary"></i></td>
-          <td id="btn_edit_kemas" data-id="<?=$rowKeluar['id_keluar'];?>" data-push="edit-keluar" data-bs-toggle="modal" data-bs-target="#kemasModal" style="width:30px" class="text-center"><i class="fas fa-edit text-success"></i></td>
-          <td id="btn_hapus_kemas" data-id="<?=$rowKeluar['id_keluar'];?>" data-push="hapus-keluar" style="width:30px" class="text-center"><i class="fas fa-trash text-danger"></i></td>
+          <td valign="middle" class="text-center"><?=$rowKeluar['tanggal'];?></td>
+          <td valign="middle" style="white-space:wrap"><?=$rowKeluar['nama'];?></td>
+          <td valign="middle"><?=number_format($rowKeluar['jumlah'],0,',','.');?></td>
+          <td valign="middle" id="btn_detail_kemas" data-id="<?=$rowKeluar['id_keluar'];?>" data-push="detail-keluar" style="width:30px" class="text-center"><i class="fas fa-eye text-primary"></i></td>
+          <td valign="middle" id="btn_edit_kemas" data-id="<?=$rowKeluar['id_keluar'];?>" data-push="edit-keluar" data-bs-toggle="modal" data-bs-target="#kemasModal" style="width:30px" class="text-center"><i class="fas fa-edit text-success"></i></td>
+          <td valign="middle" id="btn_hapus_kemas" data-id="<?=$rowKeluar['id_keluar'];?>" data-push="hapus-keluar" style="width:30px" class="text-center"><i class="fas fa-trash text-danger"></i></td>
         </tr>
 <?php } ?>
       </tbody>
@@ -146,12 +145,12 @@ if(mysqli_num_rows($dataMasuk)){
       <tbody>
 <?php while($rowMasuk = mysqli_fetch_array($dataMasuk)){ ?>
         <tr>
-          <td class="text-center"><?=$rowMasuk['tanggal'];?></td>
-          <td><?=$rowMasuk['nama'];?></td>
-          <td><?=number_format($rowMasuk['jumlah'],0,',','.');?></td>
-          <td id="btn_detail_kemas" data-id="<?=$rowMasuk['id_masuk'];?>" data-push="detail-masuk" style="width:30px" class="text-center"><i class="fas fa-eye text-primary"></i></td>
-          <td id="btn_edit_kemas" data-id="<?=$rowMasuk['id_masuk'];?>" data-push="edit-masuk" data-bs-toggle="modal" data-bs-target="#kemasModal" style="width:30px" class="text-center"><i class="fas fa-edit text-success"></i></td>
-          <td id="btn_hapus_kemas" data-id="<?=$rowMasuk['id_masuk'];?>" data-push="hapus-masuk" style="width:30px" class="text-center"><i class="fas fa-trash text-danger"></i></td>
+          <td valign="middle" class="text-center"><?=$rowMasuk['tanggal'];?></td>
+          <td valign="middle" style="white-space:wrap"><?=$rowMasuk['nama'];?></td>
+          <td valign="middle"><?=number_format($rowMasuk['jumlah'],0,',','.');?></td>
+          <td valign="middle" id="btn_detail_kemas" data-id="<?=$rowMasuk['id_masuk'];?>" data-push="detail-masuk" style="width:30px" class="text-center"><i class="fas fa-eye text-primary"></i></td>
+          <td valign="middle" id="btn_edit_kemas" data-id="<?=$rowMasuk['id_masuk'];?>" data-push="edit-masuk" data-bs-toggle="modal" data-bs-target="#kemasModal" style="width:30px" class="text-center"><i class="fas fa-edit text-success"></i></td>
+          <td valign="middle" id="btn_hapus_kemas" data-id="<?=$rowMasuk['id_masuk'];?>" data-push="hapus-masuk" style="width:30px" class="text-center"><i class="fas fa-trash text-danger"></i></td>
         </tr>
 <?php } ?>
       </tbody>
@@ -166,13 +165,16 @@ if(mysqli_num_rows($dataMasuk)){
 <?php } ?>
 </div>
 <?php
-$omsetHariIni = mysqli_query($con, "SELECT * FROM tb_penjualan WHERE tanggal='$date_now' AND bulan='$month_now' AND tahun='$year_now' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+$omsetHariIni = mysqli_query($con, "SELECT tanggal, bulan, tahun, SUM(harga * jumlah) AS omset, SUM((harga * jumlah) - (modal * jumlah)) AS laba FROM tb_penjualan WHERE tanggal='$date_now' AND bulan='$month_now' AND tahun='$year_now' AND id_grup='$idgrup' AND id_toko='$idtoko'");
+$pengeluaranHariIni = mysqli_query($con, "SELECT SUM(pengeluaran) AS pengeluaran FROM tb_pengeluaran WHERE tanggal='$date_now' AND bulan='$month_now' AND tahun='$year_now' AND id_grup='$idgrup' AND id_toko='$idtoko'");
 if(mysqli_num_rows($omsetHariIni)){
-  $row = mysqli_fetch_array($omsetHariIni);
-  $valOmset = number_format($row['harga'],0,',','.');
-  $tanggal = $row['tanggal'];
-  $bulan = listBulan($row['bulan']);
-  $tahun = $row['tahun'];
+  $row_ohi = mysqli_fetch_array($omsetHariIni);
+  $row_phi = mysqli_fetch_array($pengeluaranHariIni);
+  $omset = ($row_ohi['omset'] - $row_ohi['laba']) - $row_phi['pengeluaran'];
+  $valOmset = number_format($omset,0,',','.');
+  $tanggal = $row_ohi['tanggal'];
+  $bulan = listBulan($row_ohi['bulan']);
+  $tahun = $row_ohi['tahun'];
   $valTanggal = $tahun.'-'.$bulan.'-'.$tanggal;
 }else{
   $valOmset = $valTanggal = '';
