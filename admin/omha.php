@@ -25,7 +25,7 @@ $omsetBersih = ($totalOmset - $totalKeluar) + ($totalMasuk);
 <div class="container px-1">
   <div class="d-flex justify-content-between align-items-center text-bg-dark py-1 px-2 mb-2 rounded" style="font-size:.9em">
     <h1 class="m-0" style="font-size:1em">Harian</h1>
-    <div>
+    <div class="text-center">
       <a href="#" id="btnOmset" data-bs-toggle="modal" data-bs-target="#omsetModal" class="text-decoration-none badge bg-light text-primary fw-normal"><div style="width:12px" class="d-inline-block"><i class="fas fa-square-plus"></i></div> Omset</a>
       <a href="#" id="btnKeluar" data-bs-toggle="modal" data-bs-target="#kemasModal" class="text-decoration-none badge bg-light text-primary fw-normal"><div style="width:12px" class="d-inline-block ms-1"><i class="fas fa-square-plus"></i></div> Keluar</a>
       <a href="#" id="btnMasuk" data-bs-toggle="modal" data-bs-target="#kemasModal" class="text-decoration-none badge bg-light text-primary fw-normal"><div style="width:12px" class="d-inline-block ms-1"><i class="fas fa-square-plus"></i></div> Masuk</a>
@@ -36,7 +36,7 @@ $omsetBersih = ($totalOmset - $totalKeluar) + ($totalMasuk);
   <div class="px-3 text-center" style="font-size:.85em;margin-bottom:-2px;position:relative;z-index:99">
     <div class="d-inline-block px-2 rounded-top-3 text-light" style="background-color:#06abcc;font-size:.9em">Data Omset Bulan <?=$getBulan.' '.$getTahun;?></div>
   </div>
-  <div class="tab-auto" style="max-height:38.75vh;margin-bottom:.25rem;font-size:.95em">
+  <div class="tab-auto" style="max-height:39vh;margin-bottom:.25rem;font-size:.95em">
     <table class="table mb-0">
       <thead>
         <tr>
@@ -75,11 +75,17 @@ while($rowOmset = mysqli_fetch_array($dataOmset)){
       </tbody>
     </table>
     <div style="position:sticky;bottom:0;font-size:.9em" class="text-bg-dark text-center py-1">
-      <div class="border-bottom border-secondary"><?=number_format($totalOmset,0,',','.').' - '.number_format($totalKeluar,0,',','.');?></div>
-      <div><?=number_format($sisaOmset,0,',','.').' + '.number_format($totalMasuk,0,',','.');?></div>
-      <div class="d-flex justify-content-between align-items-center pt-1 px-3 border-top border-secondary">
+<?php
+if($totalKeluar != '' || $totalMasuk != ''){
+  if($totalKeluar != ''){
+?>
+      <div class="d-flex justify-content-center align-items-center" style="margin:.25rem 0"><?='<span class="text-bg-secondary rounded px-2">'.number_format($totalOmset,0,',','.').'</span>&nbsp;<span class="badge text-bg-danger rounded">-</span>&nbsp;<span class="text-bg-secondary rounded px-2">'.number_format($totalKeluar,0,',','.').'</span>';?></div>
+<?php } if($totalMasuk != ''){ ?>
+      <div class="d-flex justify-content-center align-items-center" style="margin:.25rem 0"><?='<span class="text-bg-secondary rounded px-2">'.number_format($sisaOmset,0,',','.').'</span>&nbsp;<span class="badge text-bg-success rounded">+</span>&nbsp;<span class="text-bg-secondary rounded px-2">'.number_format($totalMasuk,0,',','.').'</span>';?></div>
+<?php } } ?>
+      <div class="d-flex justify-content-between align-items-center px-3" style="margin:.25rem 0">
         <div>Omset <span class="badge text-bg-light rounded-circle"><?=mysqli_num_rows($dataOmset);?></span> Hari</div>
-        <span class="text-bg-info rounded px-2 fw-bold"><?=number_format($omsetBersih,0,',','.');?></span>
+        <span class="text-bg-primary rounded px-2 fw-bold"><?=number_format($omsetBersih,0,',','.');?></span>
       </div>
     </div>
   </div>
@@ -149,7 +155,7 @@ if(mysqli_num_rows($dataMasuk)){
     <div style="position:sticky;bottom:0;font-size.9em" class="text-bg-dark text-center py-1 px-3">
       <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center"><span class="badge text-bg-light rounded-circle"><?=mysqli_num_rows($dataMasuk);?></span>&nbsp;Data Masuk</div>
-        <span class="text-bg-primary rounded px-2 fw-bold"><?=number_format($totalMasuk,0,',','.');?></span>
+        <span class="text-bg-success rounded px-2 fw-bold"><?=number_format($totalMasuk,0,',','.');?></span>
       </div>
     </div>
   </div>
