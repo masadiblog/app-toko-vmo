@@ -27,7 +27,7 @@ if(isset($_GET['tahun']) && $_GET['tahun'] != ''){
   $getTahun = $year_now;
 }
 $dataOmset = mysqli_query($con, "SELECT * FROM tb_omha WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND bulan='$getBulan' AND tahun='$getTahun' ORDER BY tanggal ASC");
-$sumOmset = mysqli_query($con, "SELECT SUM(omset) AS omset FROM tb_omha");
+$sumOmset = mysqli_query($con, "SELECT SUM(omset) AS omset FROM tb_omha WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND bulan='$getBulan' AND tahun='$getTahun'");
 $rowSumOmset = mysqli_fetch_array($sumOmset);
 $sumKeluar = mysqli_query($con, "SELECT SUM(jumlah) AS jumlah FROM tb_keluar WHERE id_grup='$idgrup' AND id_toko='$idtoko' AND bulan='$getBulan' AND tahun='$getTahun' ORDER BY tanggal ASC");
 $rowSumKeluar = mysqli_fetch_array($sumKeluar);
