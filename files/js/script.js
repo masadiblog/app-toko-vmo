@@ -1121,16 +1121,16 @@ if(qs('#harian') != null){
       jumlah.setAttribute('readonly','');
     }
     if(harga.value != '' && jumlah.value != ''){
-      let laba = (harga.value.replaceAll('.','') * jumlah.value) - (modal.value.replaceAll('.','') * jumlah.value);
+      let laba = (harga.value.replace('.','') * jumlah.value.replace(',','.')) - (modal.value.replace('.','') * jumlah.value.replace(',','.'));
       mores.innerText = 'Laba : '+(fornum(laba.toString()));
     }else{
       mores.innerText = 'Modal : '+modal.value;
     }
   }
   jumlah.oninput = () => {
-    jumlah.value = fornum(jumlah.value);
+    jumlah.value = jumlah.value;
     if(jumlah.value != ''){
-      let laba = (harga.value.replaceAll('.','') * jumlah.value) - (modal.value.replaceAll('.','') * jumlah.value);
+      let laba = (harga.value.replace('.','') * jumlah.value.replace(',','.')) - (modal.value.replace('.','') * jumlah.value.replace(',','.'));
       mores.innerText = 'Laba : '+(fornum(laba.toString()));
     }else{
       mores.innerText = 'Modal : '+modal.value;
@@ -2320,9 +2320,6 @@ if(qs('#btnOmset') != null){
     e.preventDefault();
     qs('#omsetForm').setAttribute('data-push', 'input-omset');
     qs('#omsetForm h5').innerText = 'Tambah Omset';
-    setTimeout(function(){
-      qs('#omsetForm #omset').focus();
-    },500);
   }
 }
 
